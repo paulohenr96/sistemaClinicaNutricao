@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Simple Sidebar - Start Bootstrap Template</title>
+<!-- Favicon-->
+<div th:insert="importcss"></div>
+</head>
+<body>
+
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div th:include="sidebar"></div>
+
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+			<div th:include="topnavigation"></div>
+			<!-- Page content-->
+			<div class="container-fluid">
+				<h1 class="mt-4">
+					Perfil do Paciente <i class="bi bi-person-circle"></i> <input
+						type="hidden" id="idpaciente" th:value="${paciente.id}">
+				</h1>
+				<h1> Proxima Consulta : <span id="proximaconsulta"></span></h1>
+				<form th:action="@{/pacientes/crud/salvar}" id="formulario_paciente">
+					<div class="row">
+						<div class="form-group ">
+							<label for="nome">Nome</label> <input type="text"
+								class="form-control" th:value="${paciente.nome}" id="nome"
+								name="nome" placeholder="nome">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<label for="endereco">Endereco</label> <input
+								th:value="${paciente.endereco}" type="text" class="form-control"
+								id="endereco" name="endereco" placeholder="Endereco...">
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="cpf">CPF</label> <input type="text"
+								class="form-control" id="cpf" name="cpf"
+								th:value="${paciente.cpf}" placeholder="cpf">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="dataDeNascimento">Data De Nascimento</label> <input
+								th:value="${paciente.dataDeNascimento}" type="text"
+								class="form-control" id="dataDeNascimento"
+								name="dataDeNascimento">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<label for="telefone">Telefone</label> <input type="text"
+								th:value="${paciente.telefone}" class="form-control"
+								name="telefone" id="telefone" placeholder="telefone">
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="descricao">Descrição</label>
+							<textarea class="form-control" name="descricao"
+								th:value="${paciente.descricao}" th:text="${paciente.descricao}"
+								rows="3" id="descricao" placeholder="descricao"></textarea>
+						</div>
+
+					</div>
+
+
+
+
+				</form>
+				<div class="mt-2" id="alerta"></div>
+				<div class="row mt-2 botao-perfil">
+					<div class="form-group col-md-3">
+						<button type="button" class="btn btn-primary form-control"
+							onclick="editarPaciente()"><i class="bi bi-save2"></i> Salvar</button>
+					</div>
+
+					<div class="form-group col-md-3">
+						<a th:href="@{/dietas/{usuario}(usuario=${paciente.id})}">
+							<button type="button" class="btn btn-primary form-control"><i class="bi bi-cup-straw"></i> Ver
+								Dieta</button>
+						</a>
+
+
+					</div>
+					<div class="form-group col-md-3">
+						<a th:href="@{/medicoes/{usuario}(usuario=${paciente.id})}">
+
+							<button type="button" class="btn btn-primary form-control"><i class="bi bi-speedometer"></i> Medições</button>
+						</a>
+					</div>
+
+					<div class="form-group col-md-3">
+
+
+						<button type="button" data-toggle="modal"
+							data-target="#exampleModalCenter"
+							class="btn btn-primary form-control"><i class="bi bi-calendar-event"></i>
+							 Agendar</button>
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title ml-5" id="exampleModalLongTitle">Agendamento</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-row ">
+							<div class="form-group">
+
+								<label class="col-md-2 form-label" for="diaConsulta">Dia
+								</label>
+							</div>
+
+							<div class="form-group col-md-5">
+								<input id="diaConsulta" class="form-control" type="text">
+							</div>
+
+							<div class="form-group col-md-2">
+								<button class="btn btn-primary" type="button"
+									onclick="agendar()">Agendar Horario</button>
+							</div>
+					</form>
+
+				</div>
+				<div class="mt-2" id="alertamodal"></div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JS-->
+	<div th:include="scripts"></div>
+
+	<script>
+		$(document).ready(
+				function() {
+					var array = $('#dataDeNascimento').val().split("-");
+					if (array.length > 1) {
+						$('#dataDeNascimento').val(
+								array[2] + "/" + array[1] + "/" + array[0]);
+
+					}
+
+					flatpickr("#dataDeNascimento", {
+						dateFormat : "d/m/Y"
+					});
+
+					flatpickr("#diaConsulta", {
+						enableTime : true,
+
+						dateFormat : "d/m/Y H:i",
+
+						minTime : "08:00",
+						maxTime : "17:00",
+
+					});
+					proximaConsulta();
+				});
+		function proximaConsulta(){
+			var paciente=$("#idpaciente").val();
+			
+			$.get('/consultas/proximaconsulta/'+paciente).done(function(response) {
+				console.log(response);
+				var consulta=JSON.parse(response);
+				console.log(consulta);
+
+				if(consulta===null){
+					$("#proximaconsulta").html("Nenhuma consulta marcada.")				
+
+				}else{
+
+					var array=consulta.horario.split(" ");
+					var dia=array[0];
+					var hora=array[1];
+					$("#proximaconsulta").html(dia+" às "+hora)		
+				}
+					
+				
+			}).fail(function(xhr) {
+				console.log("xhr=>"+xhr);
+				tratarErro(xhr);
+			});
+		
+		}
+		function agendar() {
+
+			var data = $("#diaConsulta").val();
+			var paciente = $("#idpaciente").val();
+
+			if (data.trim() !== '') {
+
+				var consulta = {
+					horario : data,
+				}
+				$.post('/consultas/' + paciente, consulta).done(
+						function(response) {
+							sucesso("Agendado com sucesso", "alertamodal");
+							alert("Agendado ")
+						}).fail(function(xhr) {
+					tratarErro(xhr,"alertamodal");
+				});
+			} else {
+				alertar("Insira a data.", "alertamodal");
+
+			}
+		}
+
+		function editarPaciente() {
+
+			var paciente = {
+				id : $("#idpaciente").val(),
+				nome : $("#nome").val(),
+				endereco : $("#endereco").val(),
+				dataDeNascimento : $("#dataDeNascimento").val(),
+				telefone : $("#telefone").val(),
+				descricao : $("#descricao").val(),
+				cpf : $("#cpf").val(),
+
+			}
+			alert(paciente.descricao)
+			console.log(paciente);
+			if (paciente.nome.trim() != '' && paciente.telefone.trim() != ''
+					&& paciente.cpf.trim() != ''
+					&& paciente.endereco.trim() != '') {
+				console.log("Fazendo a requisição")
+				$.post('/pacientes/crud', paciente).done(function(response) {
+					sucesso("Mudanças realizadas");
+				}).fail(function(xhr) {
+					tratarErro(xhr);
+				});
+			} else {
+				alertar("Preencha todos os campos.")
+			}
+		}
+	</script>
+</body>
+</html>

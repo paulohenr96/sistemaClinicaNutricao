@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Simple Sidebar - Start Bootstrap Template</title>
+<!-- Favicon-->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="css/styles.css" th:href="@{/css/styles.css}"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+</head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div th:insert="sidebar"></div>
+
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+<!-- 			<nav -->
+<!-- 				class="navbar navbar-expand-lg navbar-light bg-light border-bottom"> -->
+<!-- 				<div class="container-fluid"> -->
+<!-- 					<button class="btn btn-primary" id="sidebarToggle">Toggle -->
+<!-- 						Menu</button> -->
+<!-- 					<button class="navbar-toggler" type="button" -->
+<!-- 						data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" -->
+<!-- 						aria-controls="navbarSupportedContent" aria-expanded="false" -->
+<!-- 						aria-label="Toggle navigation"> -->
+<!-- 						<span class="navbar-toggler-icon"></span> -->
+<!-- 					</button> -->
+<!-- 					<div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+<!-- 						<ul class="navbar-nav ms-auto mt-2 mt-lg-0"> -->
+<!-- 							<li class="nav-item active"><a class="nav-link" href="#!">Home</a></li> -->
+<!-- 							<li class="nav-item"><a class="nav-link" href="#!">Link</a></li> -->
+<!-- 							<li class="nav-item dropdown"><a -->
+<!-- 								class="nav-link dropdown-toggle" id="navbarDropdown" href="#" -->
+<!-- 								role="button" data-bs-toggle="dropdown" aria-haspopup="true" -->
+<!-- 								aria-expanded="false">Dropdown</a> -->
+<!-- 								<div class="dropdown-menu dropdown-menu-end" -->
+<!-- 									aria-labelledby="navbarDropdown"> -->
+<!-- 									<a class="dropdown-item" href="#!">Action</a> <a -->
+<!-- 										class="dropdown-item" href="#!">Another action</a> -->
+<!-- 									<div class="dropdown-divider"></div> -->
+<!-- 									<a class="dropdown-item" href="#!">Something else here</a> -->
+<!-- 								</div></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</nav> -->
+		<div th:insert="topnavigation"></div>
+
+			<!-- Page content-->
+			<div class="container-fluid">
+				<h1>
+					DIETA <span th:text="${paciente}" id="paciente" />
+				</h1>
+				<form id="formulario_refeicao"
+					th:action="@{/dietas/{id}(id=${paciente})}" method="post"
+					th:object="${refeicao}">
+					<div class="refeicoes mt-3">
+						<div class="form-row">
+							<div class="form-group">
+								<label for="nomerefeicao" class="form-label">Nome: </label>
+
+							</div>
+							<div class="form-group">
+								<input id="nome" name="nome" type="text" class="form-control">
+							</div>
+						</div>
+						<div class="form-group col-md-2 mt-1 form-row">
+							<label for="horario" class="form-label">Horário: </label> <input
+								id="horario" type="text" name="horario" class="form-control">
+
+						</div>
+						<div class="mt-2" id="alerta"></div>
+						
+						<button class="btn btn-primary mt-2" onclick="novaRefeicao()"
+							type="button"><i class="bi bi-patch-plus"></i> Nova Refeição</button>
+
+					</div>
+				</form>
+				<table class="table" id="tabelarefeicao-header"
+					style="width: 50%; height: 100px; overflow: scroll; margin-top: 2em">
+					<thead>
+						<th style="width: 10%">HORÁRIO</th>
+						<th>NOME</th>
+						<th>CALORIA</th>
+
+						<th>PROTEINA</th>
+						<th>CARBOIDRATO</th>
+						<th>GORDURA</th>
+
+					</thead>
+
+					<tbody id="tabelarefeicao">
+
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="modalRefeicao" aria-hidden="true"
+		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel">
+						Refeição - <span id="nome_refeicao_selecionada"></span> <span
+							id="horario_refeicao_selecionada"></span>
+					</h5>
+
+					<button class="btn btn-danger  mx-sm-3 mb-2"
+						onclick="deleteRefeicao()">Remover Refeição</button>
+
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+
+				</div>
+				<div class="modal-body" style="height: 50vh; overflow: scroll">
+
+					<div class="pesquisa">
+						<!-- 						<div class="campo_pesquisa" > -->
+						<!-- 												<label for="alimentopesquisar" class="form-label">Pesquisar</label> -->
+
+						<!-- 							<input id="nomepesquisa"  class="form-control"> -->
+						<!-- 							<button class="btn btn-primary" onclick="findAllAlimentosByNome()">Pesquisar</button> -->
+						<!-- 						</div> -->
+						<!-- 					<div class="adicionarproduto"> -->
+						<!-- 										<input type="text" class="form-control"> -->
+
+
+						<!-- 					</div> -->
+						<form class="form-inline">
+
+							<div class="form-group mx-sm-3 mb-2">
+								<label for="nomepesquisa" class="sr-only">Pesquisar: </label> <input
+									type="text" class="form-control" id="nomepesquisa"
+									placeholder="Alimento...">
+							</div>
+							<button type="button" onclick="findAllAlimentosByNome()"
+								class="btn btn-primary mb-2" style="margin-left: 1em">Pesquisar</button>
+
+
+						</form>
+
+						<div class="tabelapaginacao">
+							<table class="table buscaalimentostabela"
+								style="margin-bottom: 1em;">
+								<thead>
+									<th>NOME</th>
+									<th>PORÇÃO</th>
+									<th>CAL</th>
+									<th>P</th>
+									<th>C</th>
+									<th>G</th>
+
+
+								</thead>
+								<tbody id="tabelaalimentos">
+
+								</tbody>
+							</table>
+
+							<div class="paginacao_alimentos" id="paginacao_alimentos"></div>
+
+						</div>
+
+						<div class="form-group mx-sm-3 mb-2 mt-3" style="width: 10em;">
+							<input type="text" class="form-control mx-sm-1"
+								readonly="readonly" id="alimentoselecionado"
+								placeholder="Selecione um alimento"> <input
+								id="alimentoselecionadoid" type="hidden"> <input
+								type="text" class="form-control mx-sm-1 mt-1 "
+								readonly="readonly" id="quantidade" placeholder="Quantidade...">
+							<button type="button" onclick="adicionarAlimentoRefeicao()"
+								class="btn btn-primary mb-2 form-control mx-sm-1 mt-1">Pronto</button>
+
+						</div>
+						<div class="macros-refeicao">
+							<p id="caloriarefeicao"></p>
+							<p id="proteinarefeicao"></p>
+							<p id="carboidratorefeicao"></p>
+							<p id="gordurarefeicao"></p>
+						</div>
+
+						<table id="tabelaalimentosrefeicao-tabela" class="table"
+							style="margin-top: 2em">
+							<thead>
+								<th style="width: 30%">Nome</th>
+								<th style="width: 10%">Quantidade</th>
+								<th style="width: 10%">Cal</th>
+								<th style="width: 10%">P</th>
+								<th style="width: 10%">C</th>
+								<th style="width: 10%">G</th>
+
+								<th style="width: 10%"><i class='bi bi-trash-fill'></i></th>
+
+							</thead>
+							<tbody id="tabelaalimentosrefeicao"></tbody>
+						</table>
+					</div>
+
+
+				</div>
+
+
+
+
+
+				<div class="modal-footer">
+
+					<button class="btn btn-primary"
+						data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+						data-bs-dismiss="modal">Open second modal</button>
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+
+	<input type="hidden" id="refeicaoselecionadaid">
+
+	<!-- Bootstrap core JS-->
+	<div th:insert="scripts"></div>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+	<script>
+		flatpickr("#horario", {
+			enableTime : true,
+			noCalendar : true,
+			dateFormat : "H:i",
+			time_24hr : true
+		});
+		var id;
+		window.onload = function() {
+			  // Your code here
+
+			id=$("#paciente").html();
+		
+			  
+			findAllRefs();
+			  
+		};
+		
+		function findAllRefs(){
+			$.get('/dietas/'+id+"/crud").done(function(response) {
+				var lista_refeicoes=JSON.parse(response);
+				incrementarTabela(lista_refeicoes);
+			}).fail(function(xhr) {
+				tratarErro(xhr);
+			});
+		}
+		
+		
+		function novaRefeicao() {
+			var ref = $("#nome").val();
+			var refeicao={
+					
+					nome:$("#nome").val(),
+
+					horario:$("#horario").val(),
+					
+			};
+			console.log(refeicao);
+			if (refeicao.nome.trim() != '' && refeicao.horario.trim() != '') {
+				console.log("Fazendo a requisição")
+				$.post('/dietas/'+id, refeicao).done(function(response) {
+					limparFormulario("formulario_refeicao");
+					sucesso("Refeição criada com sucesso.")
+					var lista_refeicoes=JSON.parse(response);
+					incrementarTabela(lista_refeicoes);
+				}).fail(function(xhr) {
+					tratarErro(xhr);
+				});
+			}else{
+				alertar("Preencha todos os campos")
+			}
+		}
+		
+		
+		
+		
+		
+		function incrementarTabela(lista){
+			$("#tabelarefeicao").html('');
+			console.log(lista);
+			if (lista.length===0){
+				$("#tabelarefeicao-header").hide();
+			}else{
+				$("#tabelarefeicao-header").show();
+
+			}
+			lista.forEach((e)=>{
+				var tudo="<td>"+e.horario+"</td>";
+				tudo+="<td>"+e.nome+"</td>";
+				tudo+="<td>"+e.caloria+"</td>";
+				tudo+="<td>"+e.proteina+"</td>";
+				tudo+="<td>"+e.carboidrato+"</td>";
+				tudo+="<td>"+e.gordura+"</td>";
+
+				tudo+="<td><button onclick='findRef("+e.id+")' data-bs-target='#modalRefeicao' data-bs-toggle='modal' class='btn'><i class='bi bi-pencil-fill'></i></button></td>"
+				$("#tabelarefeicao").append("<tr>"+tudo+"</tr>");
+				
+
+			})
+		}
+		function incrementarTabelaAlimentos(lista){
+			$("#tabelaalimentos").html('');
+			lista.forEach((e)=>{
+				var tudo="<td>"+e.nome+"</td>";
+				tudo+="<td>"+e.porcao+"</td>";
+				tudo+="<td>"+e.caloria+"</td>";
+				tudo+="<td>"+e.proteina+"</td>";
+				tudo+="<td>"+e.carboidrato+"</td>";
+				tudo+="<td>"+e.gordura+"</td>";
+				$("#tabelaalimentos").append("<tr onclick='findAlimentoById("+e.id+")'>"+tudo+"</tr>")
+				
+				
+				
+		})
+	}
+		function incrementarTabelaAlimentosRefeicao(lista){
+			$("#tabelaalimentosrefeicao").html('');
+			
+			if (lista.length==0){
+				$("#tabelaalimentosrefeicao-tabela").hide();
+
+			}else{
+				$("#tabelaalimentosrefeicao-tabela").show();
+			}
+			lista.forEach((e)=>{
+				var tudo="<td>"+e.nome+"</td>";
+				tudo+="<td>"+e.quantidade+"</td>";
+				tudo+="<td>"+e.caloria+"</td>";
+				tudo+="<td>"+e.proteina+"</td>";
+				tudo+="<td>"+e.carboidrato+"</td>";
+				tudo+="<td>"+e.gordura+"</td>";
+				tudo+="<td><button onclick='removerAlimento("+e.id+")'  class='btn'><i class='bi bi-trash'></i></button></td>"
+				$("#tabelaalimentosrefeicao").append("<tr>"+tudo+"</tr>")
+				
+				
+				
+		})
+	}
+		
+		function adicionarAlimentoRefeicao(){
+			var alimento=$("#alimentoselecionadoid").val();
+			var quantidade=$("#quantidade").val();
+			var refeicao=$("#refeicaoselecionadaid").val();
+			var ali={
+					alimento: $("#alimentoselecionadoid").val(),
+					quantidade: $("#quantidade").val(),
+			};
+			
+				if (alimento.trim() != '') {
+				console.log("Fazendo a requisição")
+				$.post('/refeicao/'+refeicao, ali).done(function(response) {
+					findRef();
+				}).fail(function(xhr) {
+					tratarErro(xhr);
+				});
+			}
+		}
+		
+		function findAlimentoById(id){
+			$.get('/alimentos/crud/id/'+id).done(function(response) {
+				var elemento=JSON.parse(response);
+				
+				$("#alimentoselecionado").val(elemento.nome);
+				$("#quantidade").removeAttr("readonly");
+				$("#alimentoselecionadoid").val(id);
+			}).fail(function(xhr) {
+				tratarErro(xhr);
+			});
+		}
+		function findAllAlimentos(){
+			$.get('/alimentos/crud').done(function(response) {
+				var lista=JSON.parse(response);
+				
+				
+				incrementarTabelaAlimentos(lista);
+
+			}).fail(function(xhr) {
+				tratarErro(xhr);
+			});
+			
+		}
+		
+		function findAllAlimentosByNome(pagina){
+			var nome=document.getElementById("nomepesquisa").value;
+			var param='';
+			if (pagina!==undefined){
+				param='?page='+pagina;
+			}
+			$.get('/alimentos/crud/'+nome+param).done(function(response) {
+				var lista=JSON.parse(response);
+				
+				console.log(response);
+				incrementarTabelaAlimentos(lista.content);
+				
+				paginacao("paginacao_alimentos",lista,"findAllAlimentosByNome");
+
+			}).fail(function(xhr) {
+				tratarErro(xhr);
+			});
+			
+		}
+		
+// 		function paginacao(divpaginacao,dadospagina,func){
+// 			$("#"+divpaginacao).html('');
+			
+			
+// 		  var paginas='';
+// 		  var proximohabilitado='';
+// 		  if (dadospagina.last){
+// 			  proximohabilitado='disabled'
+// 		  }
+// 		  var anteriorhabilitado='';
+// 		  if (dadospagina.first){
+// 			  anteriorhabilitado='disabled'
+// 		  }
+		  
+// 		  var anterior="<li class='page-item "+anteriorhabilitado+"' onclick='"+func+"("+(dadospagina.number-1)+")'><a class='page-link' href='#'>Voltar</a></li>";
+// 		  var proximo="<li class='page-item "+proximohabilitado+"' onclick='"+func+"("+(dadospagina.number+1)+")'><a class='page-link' href='#'>Proximo</a></li>";
+		
+		
+// 		  var nprimeira=0;
+// 		  if (dadospagina.number%3==0){
+// 			  nprimeira=dadospagina.number;
+// 		  }
+// 		  else{
+// 			  nprimeira=Math.floor(dadospagina.number/3)*3;
+// 		  }
+		  
+		  
+// 		  var nultima=nprimeira+2;
+
+// 		  for (var i=nprimeira;i<nprimeira+3;i++){
+// 			  if(i==dadospagina.number){
+// 				  paginas+="<li class='page-item active' onclick='"+func+"("+i+")'><a class='page-link' href='#'>"+(i+1)+"</a></li>";
+
+// 			  }else{
+// 				  paginas+="<li class='page-item' onclick='"+func+"("+i+")'><a class='page-link' href='#'>"+(i+1)+"</a></li>";
+
+// 			  }
+// 		  }
+			
+// 			var ul="<ul class='pagination'>"+anterior+paginas+proximo+"</ul>"
+			
+// 			$("#"+divpaginacao).append(ul);
+// 		}
+		$('#modalRefeicao').on('hidden.bs.modal', function () {
+			findAllRefs();
+			});
+		function findRef(refeicao){
+			if (refeicao == undefined){
+				refeicao=$("#refeicaoselecionadaid").val();
+			}else{
+				$("#refeicaoselecionadaid").val(refeicao);
+
+			}
+			
+			$.get('/refeicao/'+refeicao).done(function(response) {
+				var refeicao=JSON.parse(response);
+
+				$("#nome_refeicao_selecionada").html(refeicao.nome);
+				$("#horario_refeicao_selecionada").html(refeicao.horario);
+				console.log(refeicao);
+				findAllAlimentos();
+				
+				
+				incrementarTabelaAlimentosRefeicao(refeicao.alimentos);
+				
+				var caloria=0;
+				var proteina=0;
+				var carboidrato=0;
+				var gordura=0;
+				
+				refeicao.alimentos.forEach((e)=>{
+					caloria+=e.caloria;
+					proteina+=e.proteina;
+					carboidrato+=e.carboidrato;
+					gordura+=e.gordura;
+				})
+				$("#caloriarefeicao").html("Calorias "+caloria);
+				$("#proteinarefeicao").html("Proteinas(g) "+proteina);
+				$("#carboidratorefeicao").html("Carboidrato(g) "+carboidrato);
+				$("#gordurarefeicao").html("Gordura(g) "+gordura);
+
+				console.log(caloria+" "+proteina+" "+carboidrato+" "+gordura)
+
+				
+			}).fail(function(xhr) {
+				tratarErro(xhr);
+			});
+		
+		}
+		
+		function removerAlimento(alimento){
+			
+			$.ajax({
+				  url: '/refeicao/alimento/'+alimento,
+				  type: 'DELETE',
+				  success: function(result) {
+						findRef();
+				  },
+				  error: function(xhr, status, error) {
+						tratarErro(xhr);
+				  }
+				});
+		}
+		function deleteRefeicao(){
+			var refeicao=$("#refeicaoselecionadaid").val();
+			$.ajax({
+				  url: '/refeicao/'+refeicao,
+				  type: 'DELETE',
+				  success: function(result) {
+					alert("Refeicao deletada")
+					$("#modalRefeicao").modal('hide');
+					findAllRefs();
+				  },
+				  error: function(xhr, status, error) {
+						tratarErro(xhr);
+				  }
+				});
+		}
+		
+	</script>
+</body>
+</html>

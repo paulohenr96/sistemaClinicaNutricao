@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Simple Sidebar - Start Bootstrap Template</title>
+<!-- Favicon-->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div class="border-end bg-white" id="sidebar-wrapper">
+			<div class="sidebar-heading border-bottom bg-light">Start
+				Bootstrap</div>
+			<div class="list-group list-group-flush">
+				<a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="alimentos">Alimentos</a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="pacientes/crud">Clientes</a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="#!">Overview</a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="#!">Events</a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="#!">Profile</a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="#!">Status</a>
+			</div>
+		</div>
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+			<nav
+				class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+				<div class="container-fluid">
+					<button class="btn btn-primary" id="sidebarToggle">Toggle
+						Menu</button>
+					<button class="navbar-toggler" type="button"
+						data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+							<li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
+							<li class="nav-item dropdown"><a
+								class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+								role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">Dropdown</a>
+								<div class="dropdown-menu dropdown-menu-end"
+									aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" href="#!">Action</a> <a
+										class="dropdown-item" href="#!">Another action</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#!">Something else here</a>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- Page content-->
+			<div class="container-fluid">
+				<h1 class="mt-4">Alimentos</h1>
+
+				<button class="btn btn-success" data-bs-target="#modalCadastro"
+					data-bs-toggle="modal">Novo</button>
+
+
+
+				<table class="table"  th:if="${alimentos!=null}">
+					<thead>
+						<th>NOME</th>
+						<th>PORCAO</th>
+						<th>CALORIA</th>
+						<th>PROTEINA</th>
+						<th>CARBOIDRATO</th>
+						<th>GORDURA</th>
+					</thead>
+
+					<tbody>
+						<tr th:each="alimento: ${alimentos.content}">
+							<td th:text="${alimento.nome}"/>
+							<td th:text="${alimento.porcao}"/>
+							<td th:text="${alimento.caloria}"/>
+							<td th:text="${alimento.proteina}"/>
+							<td th:text="${alimento.carboidrato}"/>
+							<td th:text="${alimento.gordura}"/>
+							
+						</tr>
+
+					</tbody>
+
+
+
+
+
+
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="modal fade" id="modalCadastro" aria-hidden="true"
+		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel">Novo
+						Alimento</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form th:action="@{/alimentos/crud/salvar}"
+						id="formulario_alimento">
+						<div class="row">
+							<div class="form-group ">
+								<label for="nome">Nome</label> <input type="text"
+									class="form-control" id="nome" name="nome" placeholder="nome">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-3">
+								<label for="porcao">Porção</label> <input type="number"
+									class="form-control" id="porcao" name="porcao"
+									placeholder="porcao">
+							</div>
+
+							<div class="form-group col-md-3">
+								<label for="proteina">Proteina</label> <input type="number"
+									class="form-control" id="proteina" name="proteina"
+									placeholder="proteina">
+							</div>
+							<div class="form-group col-md-3">
+								<label for="caloria">Caloria</label> <input type="number"
+									class="form-control" id="caloria" name="caloria"
+									placeholder="caloria">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-3">
+								<label for="carboidrato">Carboidrato</label> <input
+									type="number" class="form-control" name="carboidrato"
+									id="carboidrato" placeholder="carboidrato">
+							</div>
+							<div class="form-group col-md-3">
+								<label for="gordura">Gordura</label> <input type="number"
+									class="form-control" id="gordura" name="gordura"
+									placeholder="gordura">
+							</div>
+						</div>
+
+
+						<button type="button" onclick="salvarAlimento()"
+							class="btn btn-primary" style="margin-top: 20px">Salvar</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary"
+						data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+						data-bs-dismiss="modal">Open second modal</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JS-->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Core theme JS-->
+	<script src="js/scripts.js"></script>
+	<script>
+		function salvarAlimento() {
+			alert("Salvar")
+			var alimento = {
+				nome : $("#nome").val(),
+				porcao : $("#porcao").val(),
+				proteina : $("#proteina").val(),
+				caloria : $("#caloria").val(),
+				carboidrato : $("#carboidrato").val(),
+				gordura : $("#gordura").val()
+			};
+			$.post('/alimentos/crud', alimento).done(function(response) {
+				limparFormulario("formulario_alimento");
+
+			}).fail(function(xhr) {
+				alert("Erro ao salvar o alimento: " + xhr.responseText);
+			});
+		}
+	</script>
+
+</body>
+
+
+</html>

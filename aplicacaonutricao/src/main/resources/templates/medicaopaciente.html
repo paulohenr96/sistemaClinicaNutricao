@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Simple Sidebar - Start Bootstrap Template</title>
+<!-- Favicon-->
+
+
+		<div th:insert="importcss"></div>
+
+</head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div th:insert="sidebar"></div>
+
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+						<div th:include="topnavigation"></div>
+			
+			<!-- Page content-->
+			<div class="container-fluid">
+				<h1>
+					Medicao <span th:text="${paciente}" id="paciente" />
+				</h1>
+
+
+
+				<hr>
+
+				<form id="formulario_medicao"
+					th:action="@{/dietas/{id}(id=${paciente})}" method="post"
+					th:object="${refeicao}">
+					<h2>Cadastrar Novas Medições</h2>
+					<div class="refeicoes mt-3">
+						<div class="row">
+							<div class="form-group col-md-2">
+								<label for="altura" class="form-label">Altura (cm): </label> <input
+									id="altura" name="altura" type="text" class="form-control">
+							</div>
+							<div class="form-group col-md-2">
+								<label for="peso" class="form-label">Peso (Kg): </label> <input
+									id="peso" name="peso" type="text" class="form-control">
+							</div>
+							<div class="form-group col-md-3">
+								<label for="percentualdegordura" class="form-label">Percentual
+									de Gordura (%): </label> <input id="percentualdegordura"
+									name="percentualdegordura" type="text" class="form-control">
+							</div>
+						</div>
+						<div class="form-group col-md-2 mt-1 form-row">
+							<label for="data" class="form-label">Data: </label> <input
+								id="data" type="text" name="data" class="form-control">
+
+						</div>
+						
+						<div id="alerta" class="mt-2"></div>
+						<button class="btn btn-primary mt-3" onclick="novaMedicao()"
+							type="button">Nova Medição</button>
+
+					</div>
+				</form>
+				<hr>
+				<div>
+					<h2>Histórico de Medição</h2>
+					<button class="btn btn-success" onclick="grafico()">Gráfico</button>
+
+					<table class="table" id="tabelamedicao-header"
+						style="width: 50%; height: 100px; overflow: scroll; margin-top: 2em">
+						<thead>
+							<th style="width: 10%">DATA</th>
+							<th>% Gordura</th>
+							<th>IMC</th>
+
+							<th>ALTURA</th>
+							<th>PESO</th>
+
+						</thead>
+
+						<tbody id="tabelamedicao-body">
+
+
+						</tbody>
+					</table>
+					<div id="paginacaomedicoes"></div>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="modal fade" id="modalGrafico" aria-hidden="true"
+			aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 style="text-align:center;">Gráficos de Medição</h2>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+
+					</div>
+					<div class="modal-body modal-grafico"
+						style="height: 60vh; justify-content: center">
+
+						<form>
+								<label for="radio-imc" class="form-label">IMC</label> <input
+									type="radio" value="imc" id="radio-imc" name="medida">
+							
+							
+
+								<label for="peso-grafico" class="form-label">Peso</label> <input type="radio" value="peso"
+									id="peso-grafico" name="medida">
+
+
+
+								<label for="radio-percentual" class="form-label">Percentual de Gordura</label> <input
+									type="radio" value="percentual" id="radio-percentual" name="medida">
+
+						</form>
+						<div class="grafico" style="height: 80%; width: 100%;">
+							<canvas id="myChart"></canvas>
+						</div>
+
+
+						<div></div>
+
+					</div>
+
+
+
+
+
+					<div class="modal-footer">
+
+						<button class="btn btn-primary"
+							data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+							data-bs-dismiss="modal">Open second modal</button>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+
+		<input type="hidden" id="refeicaoselecionadaid">
+
+		<!-- Bootstrap core JS-->
+		<div th:insert="scripts"></div>
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+		<script>
+		flatpickr("#data", {
+			dateFormat : "d/m/Y"
+		});
+		var id;
+		window.onload = function() {
+			  // Your code here
+
+			id=$("#paciente").html();
+		
+			  
+			findAllMedicao();
+			  
+		};
+		
+		
+		 
+		$('input[name="medida"]').change(function(){
+			var medida=$('input[name="medida"]:checked').val();
+			
+			
+			if (medida==='imc'){
+				tituloGrafico="Grafico IMC";
+
+				fazerGrafico(todosvalores.imc);
+			}else if (medida==='peso'){
+				tituloGrafico="Grafico Peso";
+
+				fazerGrafico(todosvalores.peso);
+
+			}
+			else if (medida==='percentual'){
+				tituloGrafico="Grafico Percentual de Gordura";
+
+				fazerGrafico(todosvalores.percentual);
+
+			}
+		})
+		 
+		function findAllMedicao(pagina){
+			var page='';
+			if (pagina != undefined){
+				page="?page="+pagina
+
+			}
+			$.get('/medicoes/'+id+"/crud"+page).done(function(response) {
+				var pagina=JSON.parse(response);
+				console.log(response);
+				incrementarTabela(pagina.content);
+
+			}).fail(function(xhr) {
+				  tratarErro(xhr);
+			});
+		}
+		
+		
+		function novaMedicao() {
+			var paciente = $("#paciente").html();
+			var medicao={
+					
+					peso:$("#peso").val(),
+					percentualDeGordura:$("#percentualdegordura").val(),
+					data:$("#data").val(),
+					altura:$("#altura").val(),
+					
+			};
+			console.log(medicao);
+			if (medicao.peso.trim() != '' &&
+					medicao.altura.trim() != '' &&
+					medicao.data.trim() != '' &&
+					medicao.percentualDeGordura.trim() != '') {
+				console.log("Fazendo a requisição")
+				$.post('/medicoes/'+paciente, medicao).done(function(response) {
+
+					sucesso("Medição salva com sucesso.")
+					findAllMedicao();
+				}).fail(function(xhr) {
+					  tratarErro(xhr);
+
+				});
+			}else{
+				alertar("Preencha todos os campos.")
+			}
+		}
+		
+		
+		
+	
+		
+		function incrementarTabela(lista){
+			$("#tabelamedicao-body").html('');
+			console.log(lista);
+			if (lista.length==0){
+				$("#tabelamedicao-header").hide();
+
+				return
+			}else{
+				$("#tabelamedicao-header").show();
+
+			}
+			if (lista.length>0){
+				lista.forEach((e)=>{
+					var tudo=`<td>${e.data}</td>`;
+					tudo+=`<td>${e.percentualDeGordura}</td>`;
+					tudo+=`<td>${e.imc}</td>`;
+					tudo+=`<td>${e.altura}</td>`;
+					tudo+=`<td>${e.peso}</td>`;
+					tudo+=`<td><button onclick=deleteMedicao(${e.id}) class="btn"><i class="bi bi-trash-fill" ></i></button></td>`;
+					$("#tabelamedicao-body").append(`<tr>${tudo}</tr>`);
+					
+
+				})
+				
+				
+				
+				paginacao("paginacaomedicoes",pagina,'findAllMedicao');
+
+			}
+			
+		}
+		
+		
+		
+		
+	
+		$('#modalRefeicao').on('hidden.bs.modal', function () {
+			findAllMedicao();
+			});
+		
+		
+		function deleteMedicao(id){
+			$.ajax({
+				  url: '/medicoes/'+id,
+				  type: 'DELETE',
+				  success: function(result) {
+					alert("Medicao Deletada")
+					$("#modalRefeicao").modal('hide');
+					findAllMedicao();
+				  },
+				  error: function(xhr, status, error) {
+					  tratarErro(xhr);
+				  }
+				});
+		}
+		
+	</script>
+</body>
+</html>

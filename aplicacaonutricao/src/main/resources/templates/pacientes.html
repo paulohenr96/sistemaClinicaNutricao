@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Simple Sidebar - Start Bootstrap Template</title>
+<!-- Favicon-->
+		<div th:insert="importcss"></div>
+
+</head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		              <div th:include="sidebar"></div>
+		
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+					              <div th:include="topnavigation"></div>
+			
+			<!-- Page content-->
+			<div class="container-fluid">
+				<h1 class="mt-4"><i class="bi-people"></i> Pacientes</h1>
+
+				<button class="btn btn-success" data-bs-target="#modalCadastro"
+					data-bs-toggle="modal"><i class="bi-window"></i>Novo</button>
+
+
+
+				<table class="table mt-2" th:if="${pacientes!=null}">
+					<thead>
+						<th>NOME</th>
+						<th>TELEFONE <i class="bi bi-telephone-fill"></i>
+						</th>
+						<th>PERFIL</th>
+						<th>REMOVER</th>
+					</thead>
+
+					<tbody>
+						<tr th:each="paciente: ${pacientes.content}">
+							<td th:text="${paciente.nome}" />
+							<td th:text="${paciente.telefone}" />
+							
+							<td>
+							<a th:href="@{/pacientes/crud/{id}(id=${paciente.id})}">
+							
+							<i class="bi bi-person-circle"></i>
+
+							</a>
+							
+							
+							</td>
+							
+							
+							<td><button class="btn">
+							
+							<i class="bi bi-trash-fill"></i>
+							
+							
+							</button></td>
+						</tr>
+
+					</tbody>
+
+
+
+
+
+
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="modal fade" id="modalCadastro" aria-hidden="true"
+		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalToggleLabel">Novo
+						Paciente</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form th:action="@{/pacientes/crud/salvar}"
+						id="formulario_paciente">
+						<div class="row">
+							<div class="form-group ">
+								<label for="nome">Nome</label> <input type="text"
+									class="form-control" id="nome" name="nome" placeholder="nome">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-3">
+								<label for="endereco">Endereco</label> <input type="text"
+									class="form-control" id="endereco" name="endereco"
+									placeholder="Endereco...">
+							</div>
+
+							<div class="form-group col-md-3">
+								<label for="cpf">CPF</label> <input type="text"
+									class="form-control" id="cpf" name="cpf" placeholder="cpf">
+							</div>
+							<div class="form-group col-md-3">
+								<label for="dataDeNascimento">Data De Nacimento</label> <input
+									type="text" class="form-control" id="dataDeNascimento"
+									name="dataDeNascimento" >
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-3">
+								<label for="telefone">Telefone</label> <input type="text"
+									class="form-control" name="telefone" id="telefone"
+									placeholder="telefone">
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<label for="descricao">Descrição</label>
+								<textarea type="text" class="form-control" name="descricao"
+									rows="3" id="descricao" placeholder="descricao"></textarea>
+							</div>
+
+						</div>
+
+					<div class="mt-2" id="alerta"></div>
+						<button type="button" onclick="salvarPaciente()"
+							class="btn btn-primary mt-2" style="margin-top: 20px">Salvar</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary"
+						data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+						data-bs-dismiss="modal">Open second modal</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JS-->
+	<div th:include="scripts"></div>
+	<script>
+	flatpickr("#dataDeNascimento", {
+		dateFormat : "d/m/Y"
+	});
+	
+	
+		function salvarPaciente() {
+			var paciente = {
+				nome : $("#nome").val(),
+				telefone : $("#telefone").val(),
+				cpf : $("#cpf").val(),
+				endereco : $("#endereco").val(),
+				dataDeNascimento : $("#dataDeNascimento").val(),
+			};
+			if (paciente.nome.trim()!='' 
+					&& paciente.telefone.trim()!='' 
+					&& paciente.cpf.trim()!='' 
+					&& paciente.dataDeNascimento.trim()!=''
+					&& paciente.endereco.trim()!=''){
+			$.post('/pacientes/crud', paciente).done(function(response) {
+				limparFormulario("formulario_paciente");
+				sucesso("Paciente salvo com sucesso.")
+			}).fail(function(xhr) {
+				alert("Erro ao salvar o paciente: " + xhr.responseText);
+			});
+			}else{
+				alertar("Preencha todos os campos.")
+			}
+		}
+		
+		
+		
+	</script>
+
+</body>
+
+
+</html>

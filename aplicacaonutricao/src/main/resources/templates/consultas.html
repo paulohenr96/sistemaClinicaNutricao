@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>AGENDA</title>
+<!-- Favicon-->
+<div th:insert="importcss"></div>
+
+</head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div th:include="sidebar"></div>
+
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+			<div th:include="topnavigation"></div>
+
+			<!-- Page content-->
+			<div class="container-fluid">
+				<h2>Selecione a data</h2>
+
+				<form>
+
+					<div class="form-group">
+
+						 <input id="data" type="text"
+							class="form-control col-md-2">
+						<button type="button" class="btn btn-success mt-2"
+							onclick="buscar()">Pesquisar</button>
+
+
+					</div>
+
+				</form>
+				<table class="table table-sm">
+					<thead>
+						<th>Hora</th>
+						<th>Paciente</th>
+						<th></th>
+						<th></th>
+
+					</thead>
+					<tbody>
+
+
+
+
+					</tbody>
+
+
+
+				</table>
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<!-- Bootstrap core JS-->
+	<div th:include="scripts"></div>
+	<script>
+		$(document).ready(function() {
+
+			buscar();
+
+		}
+
+		)
+		flatpickr("#data", {
+
+			dateFormat : "d/m/Y",
+
+		});
+		function incrementarTabela(lista){
+			$("table").show();
+			if (lista.length==0){
+				$("table").hide();
+			}
+			$("tbody").html('');
+			lista.forEach((e) => {
+				
+				var tudo=`<td>${e.horario.split(" ")[1]}</td>`
+					tudo+=`<td>${e.paciente.nome}</td>`
+					
+					var buttonCancelar=`<button onclick="cancelar(${e.id})" class="btn btn-danger"><i class="bi bi-person-fill-slash"></i> CANCELAR</button>`
+					
+					var buttonRealizada=`<button onclick="realizada(${e.id})" class="btn btn-success"><i class="bi bi-person-fill-check"></i>
+ REALIZADA</button>`
+					
+					if (e.status==='CANCELADA'){
+						buttonCancelar='<b>CONSULTA CANCELADA</b>';
+						buttonRealizada='';
+					}
+				if (e.status==='REALIZADA'){
+					buttonCancelar='';
+					buttonRealizada='<b>CONSULTA REALIZADA</b>';
+				}
+								tudo+=`<td>${buttonCancelar}</td>`
+									tudo+=`<td>${buttonRealizada}</td>`
+
+					$("tbody").append(`<tr>${tudo}</tr>`)
+				
+			});
+			
+		}
+		
+		function formatarData(){
+			var dataAtual = new Date();
+			var dia = String(dataAtual.getDate()).padStart(2, '0');
+			var mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Lembre-se de que os meses são indexados de 0 a 11
+			var ano = dataAtual.getFullYear();
+			var dataFormatada = dia + '/' + mes + '/' + ano;
+			
+			
+			return dataFormatada;
+		}
+		
+		function buscar() {
+
+			var data = $("#data").val();
+			data=formatarData();
+			console.log(new Date());
+			if (data.trim !== '') {
+				data = "?data=" + data;
+			}
+			$.get('/consultas/todos' + data).done(function(response) {
+				console.log(response);
+				var lista=JSON.parse(response);
+				incrementarTabela(lista)
+			}).fail(function(xhr) {
+				tratarErro(xhr);
+			});
+		}
+		function realizada(id){
+			alert(id);
+			buscar();
+			$.ajax({
+				  url: '/consultas/realizada/'+id,
+				  type: 'PUT',
+				  success: function(result) {
+					alert(result);
+					buscar();
+				  },
+				  error: function(xhr, status, error) {
+						tratarErro(xhr);
+				  }
+				});
+		}
+		
+		function cancelar(id){
+			$.ajax({
+				  url: '/consultas/cancelada/'+id,
+				  type: 'PUT',
+				  success: function(result) {
+					alert(result);
+					buscar();
+				  },
+				  error: function(xhr, status, error) {
+						tratarErro(xhr);
+				  }
+				});
+		}
+	</script>
+</body>
+</html>

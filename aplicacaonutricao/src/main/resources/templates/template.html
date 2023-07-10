@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Simple Sidebar - Start Bootstrap Template</title>
+<!-- Favicon-->
+<div th:insert="importcss"></div>
+
+</head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		<div th:include="sidebar"></div>
+
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+			<div th:include="topnavigation"></div>
+
+			<!-- Page content-->
+			<div class="container-fluid"></div>
+		</div>
+	</div>
+
+
+
+
+
+	<!-- Bootstrap core JS-->
+	<div th:include="scripts"></div>
+
+</body>
+</html>
