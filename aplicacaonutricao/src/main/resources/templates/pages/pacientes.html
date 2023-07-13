@@ -8,30 +8,36 @@
 <meta name="author" content="" />
 <title>Simple Sidebar - Start Bootstrap Template</title>
 <!-- Favicon-->
-		<div th:insert="importcss"></div>
+<div th:insert="parts/importcss"></div>
 
 </head>
 <body>
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
-		              <div th:include="sidebar"></div>
-		
+		<div th:include="parts/sidebar"></div>
+
 		<!-- Page content wrapper-->
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
-					              <div th:include="topnavigation"></div>
-			
+			<div th:include="parts/topnavigation"></div>
+
 			<!-- Page content-->
 			<div class="container-fluid">
-				<h1 class="mt-4"><i class="bi-people"></i> Pacientes</h1>
+				<h1 class="mt-4">
+					<i class="bi-people"></i> Pacientes
+				</h1>
 
 				<button class="btn btn-success" data-bs-target="#modalCadastro"
-					data-bs-toggle="modal"><i class="bi-window"></i>Novo</button>
+					data-bs-toggle="modal">
+					<i class="bi-window"></i>Novo
+				</button>
 
 
 
-				<table class="table mt-2" th:if="${pacientes!=null}">
+				<table class="table mt-2 tabela-pacientes"
+					id="tabela-lista-pacientes">
 					<thead>
+						<th>FOTO</th>
 						<th>NOME</th>
 						<th>TELEFONE <i class="bi bi-telephone-fill"></i>
 						</th>
@@ -40,28 +46,6 @@
 					</thead>
 
 					<tbody>
-						<tr th:each="paciente: ${pacientes.content}">
-							<td th:text="${paciente.nome}" />
-							<td th:text="${paciente.telefone}" />
-							
-							<td>
-							<a th:href="@{/pacientes/crud/{id}(id=${paciente.id})}">
-							
-							<i class="bi bi-person-circle"></i>
-
-							</a>
-							
-							
-							</td>
-							
-							
-							<td><button class="btn">
-							
-							<i class="bi bi-trash-fill"></i>
-							
-							
-							</button></td>
-						</tr>
 
 					</tbody>
 
@@ -71,7 +55,7 @@
 
 
 				</table>
-
+				<div id="paginacao-todos-pacientes"></div>
 			</div>
 		</div>
 	</div>
@@ -83,7 +67,7 @@
 
 	<div class="modal fade" id="modalCadastro" aria-hidden="true"
 		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-		<div class="modal-dialog modal-xl">
+		<div class="modal-dialog modal-xxl" >
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalToggleLabel">Novo
@@ -91,10 +75,27 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body ">
 
 					<form th:action="@{/pacientes/crud/salvar}"
 						id="formulario_paciente">
+
+								
+								
+								<div class="form-group">
+										<img src="/img/semperfil-foto.png"  id="foto-perfil-preview">
+								</div>
+				<div class="row">
+						<div class="form-group ">
+							<label for="foto">FOTO</label> <input type="file"
+								class="form-control col-md-12"  id="foto" 
+								name="foto" onchange="pegarImg()">
+						</div>
+					</div>
+								
+								
+								
+
 						<div class="row">
 							<div class="form-group ">
 								<label for="nome">Nome</label> <input type="text"
@@ -112,14 +113,14 @@
 								<label for="cpf">CPF</label> <input type="text"
 									class="form-control" id="cpf" name="cpf" placeholder="cpf">
 							</div>
-							<div class="form-group col-md-3">
+							<div class="form-group col-md-5">
 								<label for="dataDeNascimento">Data De Nacimento</label> <input
 									type="text" class="form-control" id="dataDeNascimento"
-									name="dataDeNascimento" >
+									name="dataDeNascimento">
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group col-md-3">
+							<div class="form-group col-md-5">
 								<label for="telefone">Telefone</label> <input type="text"
 									class="form-control" name="telefone" id="telefone"
 									placeholder="telefone">
@@ -135,7 +136,7 @@
 
 						</div>
 
-					<div class="mt-2" id="alerta"></div>
+						<div class="mt-2" id="alerta"></div>
 						<button type="button" onclick="salvarPaciente()"
 							class="btn btn-primary mt-2" style="margin-top: 20px">Salvar</button>
 					</form>
@@ -150,21 +151,47 @@
 	</div>
 
 	<!-- Bootstrap core JS-->
-	<div th:include="scripts"></div>
+	<div th:include="parts/scripts"></div>
 	<script>
 	flatpickr("#dataDeNascimento", {
 		dateFormat : "d/m/Y"
 	});
 	
+	$(document).ready(function(){
+		listarPacientes();	
+	})
+	
+	
+	function pegarImg(){
+			var foto=$("#foto")[0].files[0];
+			var reader=new FileReader();
+			
+			reader.onload=function(event){
+				var base64String = event.target.result;
+				
+				
+				$("#foto-perfil-preview").attr('src',base64String);
+			};
+			
+			reader.readAsDataURL(foto);
+			
+			
+			
+			
+			
+		}
 	
 		function salvarPaciente() {
 			var paciente = {
 				nome : $("#nome").val(),
+				foto : $("#foto-perfil-preview").attr('src'),
+
 				telefone : $("#telefone").val(),
 				cpf : $("#cpf").val(),
 				endereco : $("#endereco").val(),
 				dataDeNascimento : $("#dataDeNascimento").val(),
 			};
+			console.log(paciente);
 			if (paciente.nome.trim()!='' 
 					&& paciente.telefone.trim()!='' 
 					&& paciente.cpf.trim()!='' 
@@ -181,6 +208,63 @@
 			}
 		}
 		
+		function listarPacientes(page) {
+			var parampagina='';
+			
+			if (page != undefined){
+				parampagina='?page='+page;
+			}
+			
+			$.get('/pacientes/crud'+parampagina).done(function(response) {
+				var pageData=JSON.parse(response);
+				fillTable(pageData);
+				paginacao('paginacao-todos-pacientes', pageData, 'listarPacientes')
+			}).fail(function(xhr) {
+				alert("Erro ao salvar o paciente: " + xhr.responseText);
+			});
+		}
+		
+		function fillTable(pageData){
+			if(pageData.empty){
+				$("#tabela-lista-pacientes").hide();
+				
+				return;
+			}
+			$("#tabela-lista-pacientes > tbody").html('');
+
+			pageData.content.forEach((e)=>{
+
+				var column='';
+
+				if (e.foto!=null){
+					column+=`<td><img src="${e.foto}"/></td>`
+				}else{
+					column+=`<td><img src="/img/semperfil-foto.png"/></td>`
+				}
+				
+				column+=`<td>${e.nome}</td>`;
+				column+=`<td>${e.telefone}</td>`;
+
+				column+=`<td><a href="/pacientes/crud/${e.id}">
+					
+					<i class="bi bi-person-circle"></i>
+
+					</a></td>`;
+
+				column+=`<td><button class="btn">
+					
+					<i class="bi bi-trash-fill"></i>
+					
+					
+					</button></td>`;
+					$("#tabela-lista-pacientes>tbody").append(`<tr>${column}</tr>`)
+					$("#tabela-lista-pacientes").show();
+
+
+			})
+			
+			
+		}
 		
 		
 	</script>

@@ -8,18 +8,18 @@
 <meta name="author" content="" />
 <title>AGENDA</title>
 <!-- Favicon-->
-<div th:insert="importcss"></div>
+<div th:insert="parts/importcss"></div>
 
 </head>
 <body>
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
-		<div th:include="sidebar"></div>
+		<div th:include="parts/sidebar"></div>
 
 		<!-- Page content wrapper-->
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
-			<div th:include="topnavigation"></div>
+			<div th:include="parts/topnavigation"></div>
 
 			<!-- Page content-->
 			<div class="container-fluid">
@@ -29,15 +29,14 @@
 
 					<div class="form-group">
 
-						 <input id="data" type="text"
-							class="form-control col-md-2">
+						<input id="data" type="text" class="form-control col-md-2">
 						<button type="button" class="btn btn-success mt-2"
 							onclick="buscar()">Pesquisar</button>
 
 
 					</div>
 
-				</form>
+				</form><p id="nenhumaconsulta">asdasdasdas</p>
 				<table class="table table-sm">
 					<thead>
 						<th>Hora</th>
@@ -68,7 +67,7 @@
 
 
 	<!-- Bootstrap core JS-->
-	<div th:include="scripts"></div>
+	<div th:include="parts/scripts"></div>
 	<script>
 		$(document).ready(function() {
 
@@ -115,28 +114,28 @@
 			
 		}
 		
-		function formatarData(){
-			var dataAtual = new Date();
-			var dia = String(dataAtual.getDate()).padStart(2, '0');
-			var mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Lembre-se de que os meses são indexados de 0 a 11
-			var ano = dataAtual.getFullYear();
-			var dataFormatada = dia + '/' + mes + '/' + ano;
-			
-			
-			return dataFormatada;
-		}
 		
 		function buscar() {
 
 			var data = $("#data").val();
-			data=formatarData();
-			console.log(new Date());
-			if (data.trim !== '') {
-				data = "?data=" + data;
-			}
-			$.get('/consultas/todos' + data).done(function(response) {
+			data=formatarData(data);
+			var dataparam = "?data=" + data;
+			$.get('/consultas/todos' + dataparam).done(function(response) {
 				console.log(response);
+				
 				var lista=JSON.parse(response);
+				
+				if (lista.length==0){
+					console.log("Nenhuma consulta.")
+										$("#nenhumaconsulta").show();
+
+					$("#nenhumaconsulta").html('Nenhuma consulta nesta data : '+data);
+				}else{
+					console.log(lista.length)
+					$("#nenhumaconsulta").hide();
+
+				}
+				
 				incrementarTabela(lista)
 			}).fail(function(xhr) {
 				tratarErro(xhr);

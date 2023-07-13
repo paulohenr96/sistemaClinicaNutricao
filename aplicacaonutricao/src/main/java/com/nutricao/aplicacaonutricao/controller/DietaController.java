@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
 import com.nutricao.aplicacaonutricao.service.DietaService;
+import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 import lombok.AllArgsConstructor;
 
@@ -32,7 +33,7 @@ public class DietaController {
 		model.addAttribute("paciente",paciente);
 
 		System.out.println(paciente);
-		return "dietapaciente";
+		return PAGINAS.PAGINA_DIETA_PACIENTE;
 	}
 	
 	@PostMapping("{paciente}")

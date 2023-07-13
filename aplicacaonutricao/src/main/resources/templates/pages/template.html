@@ -8,19 +8,18 @@
 <meta name="author" content="" />
 <title>Simple Sidebar - Start Bootstrap Template</title>
 <!-- Favicon-->
-<div th:insert="importcss"></div>
-
+<div th:insert="parts/importcss"></div>
 </head>
 <body>
+
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
-		<div th:include="sidebar"></div>
+		<div th:include="parts/sidebar"></div>
 
 		<!-- Page content wrapper-->
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
-			<div th:include="topnavigation"></div>
-
+			<div th:include="parts/topnavigation"></div>
 			<!-- Page content-->
 			<div class="container-fluid"></div>
 		</div>
@@ -30,8 +29,14 @@
 
 
 
-	<!-- Bootstrap core JS-->
-	<div th:include="scripts"></div>
+	
 
+	<!-- Bootstrap core JS-->
+	<div th:include="parts/scripts"></div>
+
+	<script>
+	
+		
+	</script>
 </body>
 </html>

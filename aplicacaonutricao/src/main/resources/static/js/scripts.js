@@ -28,7 +28,22 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
+// AUXILIAR
+function formatarData(data) {
+	var dataAtual = new Date();
+	if (data != '' && data !== undefined) {
 
+		return data;
+	}
+	console.log(dataAtual)
+	var dia = String(dataAtual.getDate()).padStart(2, '0');
+	var mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Lembre-se de que os meses são indexados de 0 a 11
+	var ano = dataAtual.getFullYear();
+	var dataFormatada = dia + '/' + mes + '/' + ano;
+
+
+	return dataFormatada;
+}
 
 
 
@@ -37,20 +52,23 @@ window.addEventListener('DOMContentLoaded', event => {
 // PAGINAÇÂO ///
 
 function paginacao(divpaginacao, dadospagina, func) {
+	if (dadospagina.numberOfElements == 0) {
+		return;
+	}
 	$("#" + divpaginacao).html('');
 
 
 	var paginas = '';
-	
-	
+
+
 	var anterior = `<li class="page-item "  ><a onclick="${func}(${dadospagina.number - 1})" class="page-link" >Voltar</a></li>`;
 	var proximo = `<li class="page-item " ><a onclick="${func}(${dadospagina.number + 1})" class="page-link" >Proximo</a></li>`;
-	
-	if (dadospagina.first){
+
+	if (dadospagina.first) {
 		anterior = `<li class="page-item disabled"  ><a tabindex="-1" onclick="${func}(${dadospagina.number - 1})" class="page-link" >Voltar</a></li>`;
 	}
-	if (dadospagina.last){
-			proximo = `<li class="page-item disabled" "><a class="page-link"  tabindex="-1" onclick="${func}(${dadospagina.number + 1})>Proximo</a></li>`;
+	if (dadospagina.last) {
+		proximo = `<li class="page-item disabled"><a class="page-link"  tabindex="-1" onclick="${func}(${dadospagina.number + 1})">Proximo</a></li>`;
 
 	}
 
@@ -80,7 +98,7 @@ function paginacao(divpaginacao, dadospagina, func) {
 		}
 	}
 
-	var ul = `<ul class="pagination">${anterior}${paginas}${proximo}</ul>`
+	var ul = `<ul class="pagination justify-content-center">${anterior}${paginas}${proximo}</ul>`
 
 	$("#" + divpaginacao).append(ul);
 }
@@ -156,22 +174,22 @@ function grafico() {
 
 }
 
-function alertar(msg,id){
-	if (id===undefined){
-		id="alerta";
+function alertar(msg, id) {
+	if (id === undefined) {
+		id = "alerta";
 	}
-	$("#"+id).html('');
-	$("#"+id).html(`<div class="alert alert-warning" role="alert">
+	$("#" + id).html('');
+	$("#" + id).html(`<div class="alert alert-warning" role="alert">
   ${msg}
 </div>`)
 }
 
-function error(msg,id){
-	if (id===undefined){
-		id="alerta";
+function error(msg, id) {
+	if (id === undefined) {
+		id = "alerta";
 	}
-	$("#"+id).html('');
-	$("#"+id).html(`<div class="alert alert-danger" role="alert">
+	$("#" + id).html('');
+	$("#" + id).html(`<div class="alert alert-danger" role="alert">
   ${msg}
 </div>`)
 }
@@ -180,19 +198,19 @@ function limparFormulario(id) {
 	$("#" + id + " input").val('');
 }
 
-function tratarErro(xhr,id) {
-//	var erro = JSON.parse(xhr.responseText);
-	error(xhr.responseText,id);
+function tratarErro(xhr, id) {
+	//	var erro = JSON.parse(xhr.responseText);
+	error(xhr.responseText, id);
 }
 
-function sucesso(msg,id){
-		if (id===undefined){
-			id="alerta";
-		}
-		
-		$("#"+id).html('');
+function sucesso(msg, id) {
+	if (id === undefined) {
+		id = "alerta";
+	}
 
-	$("#"+id).html(`<div class="alert alert-success" role="alert">
+	$("#" + id).html('');
+
+	$("#" + id).html(`<div class="alert alert-success" role="alert">
   ${msg}
 </div>`)
 }
@@ -200,7 +218,7 @@ function sucesso(msg,id){
 
 /////// COMPONENTES
 
-var modalAgendar=`<div class="modal"  tabindex="-1" role="dialog">
+var modalAgendar = `<div class="modal"  tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

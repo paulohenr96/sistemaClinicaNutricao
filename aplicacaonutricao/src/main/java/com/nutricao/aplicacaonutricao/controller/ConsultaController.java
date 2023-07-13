@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nutricao.aplicacaonutricao.dto.ConsultaDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.ConsultaService;
+import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 import lombok.AllArgsConstructor;
 
@@ -31,7 +34,7 @@ public class ConsultaController {
 	
 	@GetMapping
 	public String findAllPacientes(Model model) {
-		return "consultas.html";
+		return PAGINAS.PAGINA_CONSULTAS;
 	}
 
 	@GetMapping("{paciente}")
@@ -39,8 +42,7 @@ public class ConsultaController {
 		
 		model.addAttribute("paciente",paciente);
 
-		System.out.println(paciente);
-		return "dietapaciente";
+		return PAGINAS.PAGINA_DIETA_PACIENTE;
 	}
 	
 	@PostMapping("{paciente}")
@@ -86,7 +88,22 @@ public class ConsultaController {
 		
 		return ResponseEntity.ok("ok");
 	}
-//	@GetMapping("{paciente}/crud")
+	@GetMapping("todas/{paciente}")
+	public ResponseEntity<Object> todasAsConsultasDoPaciente(@PathVariable Long paciente,
+				@RequestParam(name="size",defaultValue = "3") int size,
+				@RequestParam(name="page",defaultValue="0") int page){
+		
+				
+			Page<ConsultaDTO> pagina = service.findAllConsultaByPaciente(paciente,PageRequest.of(page, size));
+			
+			return ResponseEntity.ok(JsonMapper.mapearJson(pagina));
+			
+		
+	}
+	
+	
+	
+	//	@GetMapping("{paciente}/crud")
 //	public ResponseEntity<Object> todasRefs(@PathVariable Long paciente,Model model) {
 //
 //		return ResponseEntity.ok(service.todasAsRefeicoesEmJson(paciente));

@@ -10,15 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nutricao.aplicacaonutricao.dto.MedicaoDTO;
-import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.MedicaoService;
+import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 import lombok.AllArgsConstructor;
 
@@ -34,8 +32,7 @@ public class MedicaoController {
 
 		model.addAttribute("paciente", paciente);
 
-		System.out.println(paciente);
-		return "medicaopaciente";
+		return PAGINAS.PAGINA_MEDICAO_PACIENTE;
 	}
 
 	@PostMapping("/{paciente}")

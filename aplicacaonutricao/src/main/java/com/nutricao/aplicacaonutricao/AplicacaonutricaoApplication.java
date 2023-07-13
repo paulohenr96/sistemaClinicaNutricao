@@ -2,6 +2,7 @@ package com.nutricao.aplicacaonutricao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -11,15 +12,9 @@ public class AplicacaonutricaoApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(AplicacaonutricaoApplication.class, args);
+//		System.out.println(new BCryptPasswordEncoder().encode("admin"));
+
 	}
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("/index");
-//    }
-//    
-//    @Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//		// TODO Auto-generated method stub
-//		registry.addResourceHandler("/static/**")
-//        .addResourceLocations("classpath:/static/");	}
+	
+	
 }

@@ -6,10 +6,12 @@ import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
@@ -33,6 +35,8 @@ public class Paciente {
 	private String cpf;
 	private String telefone;
 	
+    @Column(columnDefinition = "TEXT")
+	private String foto;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -47,7 +51,7 @@ public class Paciente {
 	private Dieta dieta;
 
 	public Paciente(Long id, String nome, String endereco, String cpf, String telefone, LocalDate dataDeNascimento,
-			List<Medicao> medicoes, String descricao) {
+			List<Medicao> medicoes, String descricao,String foto) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -57,7 +61,7 @@ public class Paciente {
 		this.dataDeNascimento = dataDeNascimento;
 		this.medicoes = medicoes;
 		this.descricao = descricao;
-		
+		this.foto=foto;
 	}
 	
 	public Paciente() {

@@ -16,7 +16,7 @@ public class PacienteMapperImp implements Mapper<Paciente, PacienteDTO> {
 		return new PacienteDTO(entity.getId(),entity.getNome(),
 								entity.getEndereco(),entity.getCpf(),
 								entity.getTelefone(),entity.getDataDeNascimento(),
-								entity.getDescricao());
+								entity.getDescricao(),entity.getFoto());
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class PacienteMapperImp implements Mapper<Paciente, PacienteDTO> {
 				dto.getTelefone(),
 				dto.getDataDeNascimento(),
 				null,
-				dto.getDescricao());
+				dto.getDescricao(),dto.getFoto());
 	}
 
 }

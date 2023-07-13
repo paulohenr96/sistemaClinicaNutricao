@@ -8,26 +8,45 @@
 <meta name="author" content="" />
 <title>Simple Sidebar - Start Bootstrap Template</title>
 <!-- Favicon-->
-<div th:insert="importcss"></div>
+<div th:insert="parts/importcss"></div>
 </head>
 <body>
 
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
-		<div th:include="sidebar"></div>
+		<div th:include="parts/sidebar"></div>
 
 		<!-- Page content wrapper-->
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
-			<div th:include="topnavigation"></div>
+			<div th:include="parts/topnavigation"></div>
 			<!-- Page content-->
 			<div class="container-fluid">
+				
+				<a  th:href="@{/pacientes/crud/acessar}" ><button class="btn btn-primary mt-3">VOLTAR</button></a>
+				
 				<h1 class="mt-4">
 					Perfil do Paciente <i class="bi bi-person-circle"></i> <input
 						type="hidden" id="idpaciente" th:value="${paciente.id}">
 				</h1>
-				<h1> Proxima Consulta : <span id="proximaconsulta"></span></h1>
+				<h3> Proxima Consulta : <span id="proximaconsulta"></span></h3>
 				<form th:action="@{/pacientes/crud/salvar}" id="formulario_paciente">
+				<div class="row">
+				<div class="form-group">
+										<img src="/img/semperfil-foto.png" th:src="${paciente.foto}" id="foto-perfil-preview">
+				</div>
+				</div>
+				<div class="row">
+						<div class="form-group ">
+							<label for="foto">FOTO</label> <input type="file"
+								class="form-control col-md-2"  id="foto"
+								name="foto" onchange="pegarImg()">
+						</div>
+					</div>
+					
+					
+					
+					
 					<div class="row">
 						<div class="form-group ">
 							<label for="nome">Nome</label> <input type="text"
@@ -102,7 +121,7 @@
 
 
 						<button type="button" data-toggle="modal"
-							data-target="#exampleModalCenter"
+							data-target="#modalAgendamento" onclick="loadModal()"
 							class="btn btn-primary form-control"><i class="bi bi-calendar-event"></i>
 							 Agendar</button>
 
@@ -118,7 +137,7 @@
 
 
 
-	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+	<div class="modal fade" id="modalAgendamento"  tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
 		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
@@ -147,10 +166,26 @@
 								<button class="btn btn-primary" type="button"
 									onclick="agendar()">Agendar Horario</button>
 							</div>
+							
+							
 					</form>
-
+																					
+					
+					<div class="container-fluid">
+					<div class="mt-2" id="alertamodal"></div>
+					<table id="tabela-agendamento" class="table">
+						<thead>
+							<th>Data</th>
+							<th>Status</th>
+						</thead>
+						<tbody>
+						
+						
+						</tbody>					
+					</table>
+					<div id="paginacao-agendamento"></div>
+					</div>
 				</div>
-				<div class="mt-2" id="alertamodal"></div>
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
@@ -162,7 +197,7 @@
 	</div>
 
 	<!-- Bootstrap core JS-->
-	<div th:include="scripts"></div>
+	<div th:include="parts/scripts"></div>
 
 	<script>
 		$(document).ready(
@@ -188,7 +223,34 @@
 
 					});
 					proximaConsulta();
+					
+					if ($("#foto-perfil-preview").attr('src')==''){
+						$("#foto-perfil-preview").attr('src','/img/semperfil-foto.png');
+						
+					}
 				});
+		
+		function pegarImg(){
+			var foto=$("#foto")[0].files[0];
+			var reader=new FileReader();
+			
+			reader.onload=function(event){
+				var base64String = event.target.result;
+				
+				
+				console.log(base64String);
+				$("#foto-perfil-preview").attr('src',base64String);
+			};
+			
+			reader.readAsDataURL(foto);
+			
+			
+			
+			
+			
+		}
+		
+		
 		function proximaConsulta(){
 			var paciente=$("#idpaciente").val();
 			
@@ -215,6 +277,11 @@
 			});
 		
 		}
+		function loadModal(){
+			todasConsultas();
+
+		}
+		
 		function agendar() {
 
 			var data = $("#diaConsulta").val();
@@ -228,7 +295,8 @@
 				$.post('/consultas/' + paciente, consulta).done(
 						function(response) {
 							sucesso("Agendado com sucesso", "alertamodal");
-							alert("Agendado ")
+							
+							todasConsultas();
 						}).fail(function(xhr) {
 					tratarErro(xhr,"alertamodal");
 				});
@@ -243,6 +311,7 @@
 			var paciente = {
 				id : $("#idpaciente").val(),
 				nome : $("#nome").val(),
+				foto: $("#foto-perfil-preview").attr('src'),
 				endereco : $("#endereco").val(),
 				dataDeNascimento : $("#dataDeNascimento").val(),
 				telefone : $("#telefone").val(),
@@ -250,7 +319,6 @@
 				cpf : $("#cpf").val(),
 
 			}
-			alert(paciente.descricao)
 			console.log(paciente);
 			if (paciente.nome.trim() != '' && paciente.telefone.trim() != ''
 					&& paciente.cpf.trim() != ''
@@ -265,6 +333,55 @@
 				alertar("Preencha todos os campos.")
 			}
 		}
+		
+		
+		
+		function incrementarTabelaAgendamento(dadospagina){
+			$("#tabela-agendamento tbody").html("");
+			
+			if (!dadospagina.empty){
+				dadospagina.content.forEach((e)=>{
+					var tudo=`<td>${e.horario}</td>`;
+					tudo+=`<td>${e.status}</td>`
+					
+						$("#tabela-agendamento > tbody").append(`<tr>${tudo}</tr>`);
+					
+				})
+				
+				
+				$("#tabela-agendamento").show();
+
+			}else{
+				$("#tabela-agendamento").hide();
+
+			}
+		}
+
+		
+		function todasConsultas(pagina){
+			var parampagina='';
+			if (pagina!= undefined){
+				
+				parampagina="?page="+pagina;
+				
+			}
+			
+			var paciente=$("#idpaciente").val();
+			
+			$.get('/consultas/todas/'+paciente+parampagina).done(function(response) {
+				var dadospagina=JSON.parse(response);
+				console.log(dadospagina.content);
+				
+				incrementarTabelaAgendamento(dadospagina)
+				paginacao("paginacao-agendamento", dadospagina, "todasConsultas")
+
+			}).fail(function(xhr) {
+				console.log("xhr=>"+xhr);
+				tratarErro(xhr);
+			});
+		
+		}
+		
 	</script>
 </body>
 </html>

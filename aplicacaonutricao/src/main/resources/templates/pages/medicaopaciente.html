@@ -10,21 +10,23 @@
 <!-- Favicon-->
 
 
-		<div th:insert="importcss"></div>
+		<div th:insert="parts/importcss"></div>
 
 </head>
 <body>
 	<div class="d-flex" id="wrapper">
 		<!-- Sidebar-->
-		<div th:insert="sidebar"></div>
+		<div th:insert="parts/sidebar"></div>
 
 		<!-- Page content wrapper-->
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
-						<div th:include="topnavigation"></div>
+						<div th:include="parts/topnavigation"></div>
 			
 			<!-- Page content-->
 			<div class="container-fluid">
+										<a  th:href="@{/pacientes/crud/{id}(id=${paciente})}" ><button class="btn btn-primary mt-3">VOLTAR</button></a>
+			
 				<h1>
 					Medicao <span th:text="${paciente}" id="paciente" />
 				</h1>
@@ -53,7 +55,7 @@
 									name="percentualdegordura" type="text" class="form-control">
 							</div>
 						</div>
-						<div class="form-group col-md-2 mt-1 form-row">
+						<div class="row form-group col-md-2 mt-1 ">
 							<label for="data" class="form-label">Data: </label> <input
 								id="data" type="text" name="data" class="form-control">
 
@@ -97,7 +99,7 @@
 
 		<div class="modal fade" id="modalGrafico" aria-hidden="true"
 			aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-			<div class="modal-dialog modal-xl">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h2 style="text-align:center;">Gráficos de Medição</h2>
@@ -107,7 +109,7 @@
 
 					</div>
 					<div class="modal-body modal-grafico"
-						style="height: 60vh; justify-content: center">
+						>
 
 						<form>
 								<label for="radio-imc" class="form-label">IMC</label> <input
@@ -153,7 +155,7 @@
 		<input type="hidden" id="refeicaoselecionadaid">
 
 		<!-- Bootstrap core JS-->
-		<div th:insert="scripts"></div>
+		<div th:insert="parts/scripts"></div>
 		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

@@ -3,9 +3,10 @@ package com.nutricao.aplicacaonutricao.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.nutricao.aplicacaonutricao.dto.ConsultaDTO;
@@ -35,11 +36,11 @@ public class ConsultaService {
 		Paciente p=new Paciente();
 		p.setId(paciente);
 		dto.setPaciente(p);
-		Consulta Consulta = mapper.toEntity(dto);
+		Consulta consulta = mapper.toEntity(dto);
 		
-		
+		consulta.setStatus("AGUARDANDO");
 
-		repository.save(Consulta);
+		repository.save(consulta);
 
 	}
 
@@ -81,6 +82,13 @@ Consulta c = repository.findById(consulta).get();
 		
 		c.setStatus("REALIZADA");
 		repository.save(c);
+	}
+	
+	public Page<ConsultaDTO> findAllConsultaByPaciente(Long paciente,PageRequest of){
+		
+		
+		return repository.findAllConsultaByPaciente(paciente,of)
+				.map(mapper::toDTO);
 	}
 
 

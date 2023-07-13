@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>NUTRICAO</title>
+<!-- Favicon-->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="css/styles.css" rel="stylesheet"
+	th:href="@{/css/styles.css}" />
+
+<style>
+
+.container-fluid{
+	justify-content:center !important;
+}
+</style>
+</head>
+
+<body>
+	<div class="d-flex" id="wrapper">
+		<!-- Sidebar-->
+		              <div th:include="parts/sidebar"></div>
+		
+		<!-- Page content wrapper-->
+		<div id="page-content-wrapper">
+			<!-- Top navigation-->
+						<div th:include="parts/topnavigation"></div>
+			
+			<!-- Page content-->
+			<div class="container-fluid" >
+				<div class="esquerda-index">
+				<h1 class="mt-4">Seja Bem-Vindo</h1>
+				<p>Hoje você tem um <b id="nconsultas">5</b> consulta(s) agendada(s).</p>
+				<div id="mensagem"></div>
+				
+				</div>
+				<div id="direita-index">
+				<img src="/img/nutricionista-notebook.jpg" id="fotoindex1" class="fotos-index">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JS-->
+		<div th:include="parts/scripts"></div>
+
+
+<script>
+
+
+$(document).ready(function(){
+	buscar();	
+})
+
+function buscar() {
+
+	var data=formatarData();
+	var dataparam = "?data=" + data;
+	$.get('/consultas/todos' + dataparam).done(function(response) {
+		console.log(response);
+		var lista=JSON.parse(response);
+		$("#nconsultas").html(lista.length)
+		
+		if (lista.length>0){
+			$("#mensagem").html(`<p>Os pacientes que você vai encontrar hoje são : <div id="pessoas"></div></p>`);
+			lista.forEach((e)=>{
+				$("#pessoas").append(`<a href="/pacientes/crud/${e.paciente.id}"><p>${e.paciente.nome}
+				(${e.horario.split(' ')[1]} horas) - ${e.status}</p></a>`)
+
+			})
+		}
+		
+	}).fail(function(xhr) {
+		tratarErro(xhr);
+	});
+}
+
+
+</script>
+
+</body>
+</html>
