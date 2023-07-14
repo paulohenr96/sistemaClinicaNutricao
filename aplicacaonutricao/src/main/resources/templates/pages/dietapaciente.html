@@ -245,7 +245,6 @@
 		
 		
 		function novaRefeicao() {
-			var ref = $("#nome").val();
 			var refeicao={
 					
 					nome:$("#nome").val(),
@@ -253,14 +252,13 @@
 					horario:$("#horario").val(),
 					
 			};
-			console.log(refeicao);
+			console.log("Refeicao adicionada => "+refeicao);
 			if (refeicao.nome.trim() != '' && refeicao.horario.trim() != '') {
 				console.log("Fazendo a requisição")
-				$.post('/dietas/'+id, refeicao).done(function(response) {
+				$.post('/refeicao/nova/'+id, refeicao).done(function(response) {
 					limparFormulario("formulario_refeicao");
 					sucesso("Refeição criada com sucesso.")
-					var lista_refeicoes=JSON.parse(response);
-					incrementarTabela(lista_refeicoes);
+					findAllRefs();
 				}).fail(function(xhr) {
 					tratarErro(xhr);
 				});
@@ -398,49 +396,6 @@
 			
 		}
 		
-// 		function paginacao(divpaginacao,dadospagina,func){
-// 			$("#"+divpaginacao).html('');
-			
-			
-// 		  var paginas='';
-// 		  var proximohabilitado='';
-// 		  if (dadospagina.last){
-// 			  proximohabilitado='disabled'
-// 		  }
-// 		  var anteriorhabilitado='';
-// 		  if (dadospagina.first){
-// 			  anteriorhabilitado='disabled'
-// 		  }
-		  
-// 		  var anterior="<li class='page-item "+anteriorhabilitado+"' onclick='"+func+"("+(dadospagina.number-1)+")'><a class='page-link' href='#'>Voltar</a></li>";
-// 		  var proximo="<li class='page-item "+proximohabilitado+"' onclick='"+func+"("+(dadospagina.number+1)+")'><a class='page-link' href='#'>Proximo</a></li>";
-		
-		
-// 		  var nprimeira=0;
-// 		  if (dadospagina.number%3==0){
-// 			  nprimeira=dadospagina.number;
-// 		  }
-// 		  else{
-// 			  nprimeira=Math.floor(dadospagina.number/3)*3;
-// 		  }
-		  
-		  
-// 		  var nultima=nprimeira+2;
-
-// 		  for (var i=nprimeira;i<nprimeira+3;i++){
-// 			  if(i==dadospagina.number){
-// 				  paginas+="<li class='page-item active' onclick='"+func+"("+i+")'><a class='page-link' href='#'>"+(i+1)+"</a></li>";
-
-// 			  }else{
-// 				  paginas+="<li class='page-item' onclick='"+func+"("+i+")'><a class='page-link' href='#'>"+(i+1)+"</a></li>";
-
-// 			  }
-// 		  }
-			
-// 			var ul="<ul class='pagination'>"+anterior+paginas+proximo+"</ul>"
-			
-// 			$("#"+divpaginacao).append(ul);
-// 		}
 		$('#modalRefeicao').on('hidden.bs.modal', function () {
 			findAllRefs();
 			});

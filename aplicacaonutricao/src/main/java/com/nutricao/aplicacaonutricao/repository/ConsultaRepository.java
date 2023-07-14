@@ -21,7 +21,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 	List<Consulta> findAllConsultaData(LocalDate data);
 
 	@Query("from Consulta c where c.paciente.id=:paciente and c.horario>:now ORDER BY horario")
-	List<Consulta> findProximaConsultaByPaciente(Long paciente, LocalDate now);
+	List<Consulta> findProximaConsultaByPaciente(Long paciente, LocalDateTime now);
 
 	
 	

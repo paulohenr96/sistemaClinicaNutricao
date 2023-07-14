@@ -24,8 +24,8 @@ public class PacienteMapperImp implements Mapper<Paciente, PacienteDTO> {
 		// TODO Auto-generated method stub
 		return new Paciente(dto.getId(),
 				dto.getNome(),
-				dto.getEndereco()
-				,dto.getCpf(),
+				dto.getEndereco(),
+				dto.getCpf(),
 				dto.getTelefone(),
 				dto.getDataDeNascimento(),
 				null,

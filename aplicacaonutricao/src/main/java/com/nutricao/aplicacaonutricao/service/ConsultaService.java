@@ -46,7 +46,12 @@ public class ConsultaService {
 
 	public ConsultaDTO findProximaConsultaByPaciente(Long paciente) {
 		
-	List<Consulta> list = repository.findProximaConsultaByPaciente(paciente,LocalDateTime.now().toLocalDate());
+		int monthValue = LocalDateTime.now().getMonthValue();
+		int year = LocalDateTime.now().getYear();
+		int dayOfMonth = LocalDateTime.now().getDayOfMonth();
+	
+		LocalDateTime hoje = LocalDateTime.of(year, monthValue, dayOfMonth, 0, 0);
+		List<Consulta> list = repository.findProximaConsultaByPaciente(paciente,hoje);
 		if (list.isEmpty()) {
 			return null;
 		}

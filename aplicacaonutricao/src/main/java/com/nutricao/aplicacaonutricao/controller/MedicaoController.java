@@ -57,7 +57,7 @@ public class MedicaoController {
 	@GetMapping("{paciente}/data")
 	public ResponseEntity<String> todasAsMedicoesParaGraficoData(@PathVariable Long paciente, Model model) {
 
-		Page<MedicaoDTO> medicao = service.findAllMedicao(paciente, "data");
+		Page<MedicaoDTO> medicao = service.findAllMedicaoOrdenada(paciente, "data");
 
 		return ResponseEntity.ok(JsonMapper.mapearJson(medicao));
 	}

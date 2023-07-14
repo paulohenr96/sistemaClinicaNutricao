@@ -93,14 +93,14 @@ public class ConsultaServiceTest {
 		p.setId(1L);
 
 		LocalDate now = LocalDate.now();
-
-		when(repo.findProximaConsultaByPaciente(anyLong(), any(LocalDate.class))).thenReturn(List.of(c));
+		LocalDateTime of = LocalDateTime.of(now.getYear(),now.getMonth(), now.getDayOfMonth(), 0, 0);
+		when(repo.findProximaConsultaByPaciente(anyLong(), any(LocalDateTime.class))).thenReturn(List.of(c));
 		when(mapper.toDTO(c)).thenReturn(cDTO);
 		ConsultaDTO saida = service.findProximaConsultaByPaciente(p.getId());
 
 		assertEquals(saida, cDTO);
 
-		verify(repo).findProximaConsultaByPaciente(p.getId(), now);
+		verify(repo).findProximaConsultaByPaciente(p.getId(), of);
 
 		verifyNoMoreInteractions(repo);
 	}
@@ -112,14 +112,15 @@ public class ConsultaServiceTest {
 		p.setId(1L);
 
 		LocalDate now = LocalDate.now();
+		LocalDateTime of = LocalDateTime.of(now.getYear(),now.getMonth(), now.getDayOfMonth(), 0, 0);
 
-		when(repo.findProximaConsultaByPaciente(anyLong(), any(LocalDate.class))).thenReturn(new ArrayList<>());
+		when(repo.findProximaConsultaByPaciente(anyLong(), any(LocalDateTime.class))).thenReturn(new ArrayList<>());
 		when(mapper.toDTO(c)).thenReturn(cDTO);
 		ConsultaDTO saida = service.findProximaConsultaByPaciente(p.getId());
 
 		assertEquals(saida, null);
 
-		verify(repo).findProximaConsultaByPaciente(p.getId(), now);
+		verify(repo).findProximaConsultaByPaciente(p.getId(), of);
 
 		verifyNoMoreInteractions(repo);
 	}

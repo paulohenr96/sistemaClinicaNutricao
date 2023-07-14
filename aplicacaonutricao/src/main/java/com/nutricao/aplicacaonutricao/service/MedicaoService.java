@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.nutricao.aplicacaonutricao.calculo.CalcularMedidas;
 import com.nutricao.aplicacaonutricao.dto.MedicaoDTO;
 import com.nutricao.aplicacaonutricao.mapper.MedicaoMapperImp;
 import com.nutricao.aplicacaonutricao.model.Medicao;
@@ -31,41 +32,26 @@ public class MedicaoService {
 		}
 		Medicao medicao = mapper.toEntity(dto);
 		Integer altura = medicao.getAltura();
-		
 		BigDecimal peso = medicao.getPeso();
-		BigDecimal imc=BigDecimal.valueOf(10000*peso.doubleValue()/(altura*altura));
-		
-		medicao.setImc(imc);
-		
-		
+
+		medicao.setImc(CalcularMedidas.imc(altura, peso));
 		
 		repository.save(medicao);
-
 	}
 
 	
 	public Page<MedicaoDTO> findAllMedicaoPaginado(Long paciente,PageRequest page){
-		
-		
-		
-		
 		return repository.findAllByPaciente(paciente,page).map(mapper::toDTO);
 	}
 	
-	public Page<MedicaoDTO> findAllMedicao(Long paciente,String conteudo){
+	public Page<MedicaoDTO> findAllMedicaoOrdenada(Long paciente,String conteudo){
 		Sort sort = Sort.by(Sort.Direction.ASC, conteudo);
-			
 		Page<MedicaoDTO> retorno = 
 				repository.findAllByPaciente(paciente,PageRequest.of(0, Integer.MAX_VALUE,sort)).map(mapper::toDTO);
-
 		return retorno;
 	}
 	public void deleteMedicaoByID(Long id) {
-
 			repository.deleteById(id);
-
-		
-
 	}
 
 

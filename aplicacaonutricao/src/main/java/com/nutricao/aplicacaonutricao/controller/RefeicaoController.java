@@ -43,6 +43,16 @@ public class RefeicaoController {
 		return ResponseEntity.ok("ok");
 	}
 
+	@PostMapping("nova/{paciente}")
+	public ResponseEntity<Object> adicionarRefeicao(@PathVariable Long paciente, Model model,
+			@ModelAttribute(name = "refeicao") RefeicaoDTO r) {
+
+		service.salvar(paciente, r);
+
+		return ResponseEntity.ok("ok");
+	}
+	
+	
 	@DeleteMapping("alimento/{alimento}")
 	public ResponseEntity<Object> removerAlimento(@PathVariable Long alimento, Model model) {
 

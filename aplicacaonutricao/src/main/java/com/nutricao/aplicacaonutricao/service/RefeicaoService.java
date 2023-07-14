@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 import com.nutricao.aplicacaonutricao.calculo.CalcularMacros;
 import com.nutricao.aplicacaonutricao.dto.AlimentoRefeicaoDTO;
 import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
-import com.nutricao.aplicacaonutricao.exception.RefeicaoNotFoundException;
 import com.nutricao.aplicacaonutricao.mapper.RefeicaoMapperImp;
 import com.nutricao.aplicacaonutricao.model.Alimento;
 import com.nutricao.aplicacaonutricao.model.AlimentoRefeicao;
 import com.nutricao.aplicacaonutricao.model.Dieta;
+import com.nutricao.aplicacaonutricao.model.Paciente;
 import com.nutricao.aplicacaonutricao.model.Refeicao;
 import com.nutricao.aplicacaonutricao.repository.AlimentoRefeicaoRepository;
 import com.nutricao.aplicacaonutricao.repository.AlimentoRepository;
 import com.nutricao.aplicacaonutricao.repository.DietaRepository;
+import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 import com.nutricao.aplicacaonutricao.repository.RefeicaoRepository;
 
 import lombok.AllArgsConstructor;
@@ -30,17 +31,30 @@ public class RefeicaoService {
 	private final DietaRepository dietaRepository;
 	private final AlimentoRefeicaoRepository alimentoRefeicaoRepository;
 	private final AlimentoRepository alimentoRepository;
+	private final PacienteRepository pacienteRepository;
 
 	private final RefeicaoMapperImp mapper;
 
-	public void salvar(Long dieta, RefeicaoDTO dto) {
+	public void salvar(Long paciente, RefeicaoDTO dto) {
 
-		Optional<Dieta> optional = dietaRepository.findById(dieta);
+		Dieta dieta=dietaRepository.findByPaciente(paciente);
+		if (dieta==null) {
+			dieta = new Dieta();
+			dieta.setPaciente(pacienteRepository.findById(paciente).get());
+			dietaRepository.save(dieta);
+
+
+		} 
+		
 
 		Refeicao refeicao = mapper.toEntity(dto);
-
-		refeicao.setDieta(optional.get());
+		
+		dieta.getRefeicoes().add(refeicao);
+		refeicao.setDieta(dieta);
+		
 		repository.save(refeicao);
+		dietaRepository.save(dieta);
+
 
 	}
 
@@ -87,7 +101,6 @@ public class RefeicaoService {
 		
 		
 		dietaRepository.save(dieta);
-//		refeicao.getAlimentos().clear();
 		repository.deleteById(id);
 
 	}

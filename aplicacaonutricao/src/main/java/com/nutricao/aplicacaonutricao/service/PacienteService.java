@@ -50,7 +50,7 @@ public class PacienteService {
 	}
 
 	public Page<PacienteDTO> findAllPaciente(PageRequest pr) {
-
+		
 		return repository.findAll(pr).map(mapper::toDTO);
 
 	}
