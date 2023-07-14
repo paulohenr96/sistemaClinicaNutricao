@@ -25,21 +25,21 @@
 
 
 
-
-				<h1 class="mt-4">Perfil do Usuário</h1>
-				<h3>
-					Proxima Consulta : <span id="proximaconsulta"></span>
-				</h3>
+				<div class="titulo">
+					<h1 class="mt-4">Perfil do Usuário</h1>
+				</div>
+				
 				<form id="formulario_paciente">
 					<div class="row">
 						<div class="form-group">
-							<img src="/img/semperfil-foto.png" th:src="${usuario.foto}"  id="foto-perfil-preview">
+							<img src="/img/semperfil-foto.png" th:src="${usuario.foto}"
+								id="foto-perfil-preview">
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group ">
 							<label for="foto">FOTO</label> <input type="file"
-								class="form-control col-md-2"  id="foto" name="foto"
+								class="form-control col-md-2" id="foto" name="foto"
 								onchange="pegarImg()">
 						</div>
 					</div>
@@ -50,35 +50,36 @@
 					<div class="row">
 						<div class="form-group ">
 							<label for="nome">Nome</label> <input type="text"
-								class="form-control" id="nome" th:value="${usuario.nome}" name="nome" placeholder="nome">
+								class="form-control" id="nome" th:value="${usuario.nome}"
+								name="nome" placeholder="nome">
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-6">
 							<label for="endereco">Endereco</label> <input type="text"
-								class="form-control" id="endereco" name="endereco" th:value="${usuario.endereco}"
-								placeholder="Endereco...">
+								class="form-control" id="endereco" name="endereco"
+								th:value="${usuario.endereco}" placeholder="Endereco...">
 						</div>
 
-<!-- 						<div class="form-group col-md-3"> -->
-<!-- 							<label for="cpf">CPF</label> <input type="text" -->
-<!-- 								class="form-control" id="cpf" name="cpf" placeholder="cpf" th:value="${usuario.cpf}"> -->
-<!-- 						</div> -->
-<!-- 						<div class="form-group col-md-3"> -->
-<!-- 							<label for="dataDeNascimento">Data De Nascimento</label> <input -->
-<!-- 								type="text" class="form-control" id="dataDeNascimento" -->
-<!-- 								name="dataDeNascimento"> -->
-<!-- 						</div> -->
+						<!-- 						<div class="form-group col-md-3"> -->
+						<!-- 							<label for="cpf">CPF</label> <input type="text" -->
+						<!-- 								class="form-control" id="cpf" name="cpf" placeholder="cpf" th:value="${usuario.cpf}"> -->
+						<!-- 						</div> -->
+						<!-- 						<div class="form-group col-md-3"> -->
+						<!-- 							<label for="dataDeNascimento">Data De Nascimento</label> <input -->
+						<!-- 								type="text" class="form-control" id="dataDeNascimento" -->
+						<!-- 								name="dataDeNascimento"> -->
+						<!-- 						</div> -->
 					</div>
 					<div class="row">
 						<div class="form-group col-md-3">
 							<label for="telefone">Telefone</label> <input type="text"
-								class="form-control" name="telefone" id="telefone" th:value="${usuario.telefone}"
-								placeholder="telefone">
+								class="form-control" name="telefone" id="telefone"
+								th:value="${usuario.telefone}" placeholder="telefone">
 						</div>
 
 					</div>
-					
+
 
 
 
@@ -113,12 +114,10 @@
 	<div th:include="parts/scripts"></div>
 
 	<script>
-	
-		$(document).ready(function(){
+		$(document).ready(function() {
 			pegarImg();
 		})
-	
-	
+
 		function pegarImg() {
 			var foto = $("#foto")[0].files[0];
 			var reader = new FileReader();
@@ -135,59 +134,50 @@
 
 		function editarUsuario() {
 
-					var usuario = {
-						id : $("#idusuario").val(),
-						nome : $("#nome").val(),
-						foto: $("#foto-perfil-preview").attr('src'),
-						endereco : $("#endereco").val(),
-			// 			dataDeNascimento : $("#dataDeNascimento").val(),
-						telefone : $("#telefone").val(),
+			var usuario = {
+				id : $("#idusuario").val(),
+				nome : $("#nome").val(),
+				foto : $("#foto-perfil-preview").attr('src'),
+				endereco : $("#endereco").val(),
+				// 			dataDeNascimento : $("#dataDeNascimento").val(),
+				telefone : $("#telefone").val(),
 			// 			descricao : $("#descricao").val(),
 			// 			cpf : $("#cpf").val(),
 
-					}
-					console.log(usuario);
-					if (usuario.nome.trim() != '' && usuario.telefone.trim() != ''
-							
-							&& usuario.endereco.trim() != '') {
-						console.log("Fazendo a requisição")
-// 						$.post('/usuario', usuario).done(function(response) {
-// 							sucesso("Mudanças realizadas");
-// 						}).fail(function(xhr) {
-// 							tratarErro(xhr);
-// 						});
-						
-						
-						
-						
-						
-						
-						$.ajax({
-							  type: 'PUT',
-							  url: '/usuario',
-							  contentType: 'application/json',
-							  data: JSON.stringify(usuario),
-							  success: function(response) {
-							    console.log('Requisição PUT bem-sucedida:', response);
-								sucesso("Mudanças realizadas");
-
-							  },
-							  error: function(xhr, status, error) {
-							    console.error('Erro na requisição PUT:', error);
-								tratarErro(xhr);
-
-							  }
-							});
-						
-					} else {
-						alertar("Preencha todos os campos.")
-					}
+			}
 			console.log(usuario);
-			
-			
-			
-			
-			
+			if (usuario.nome.trim() != '' && usuario.telefone.trim() != ''
+
+			&& usuario.endereco.trim() != '') {
+				console.log("Fazendo a requisição")
+				// 						$.post('/usuario', usuario).done(function(response) {
+				// 							sucesso("Mudanças realizadas");
+				// 						}).fail(function(xhr) {
+				// 							tratarErro(xhr);
+				// 						});
+
+				$.ajax({
+					type : 'PUT',
+					url : '/usuario',
+					contentType : 'application/json',
+					data : JSON.stringify(usuario),
+					success : function(response) {
+						console.log('Requisição PUT bem-sucedida:', response);
+						sucesso("Mudanças realizadas");
+
+					},
+					error : function(xhr, status, error) {
+						console.error('Erro na requisição PUT:', error);
+						tratarErro(xhr);
+
+					}
+				});
+
+			} else {
+				alertar("Preencha todos os campos.")
+			}
+			console.log(usuario);
+
 		}
 
 		function deleteRefeicao() {

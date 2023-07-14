@@ -20,17 +20,17 @@ public class Consulta {
 	
 	@Id
 	@GeneratedValue
-	Long id;
+	private Long id;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	
-	LocalDateTime horario;
+	private LocalDateTime horario;
 	
 	@ManyToOne
-	Paciente paciente;
+	private Paciente paciente;
 	
-	String status;
+	private String status;
 	
 	
 

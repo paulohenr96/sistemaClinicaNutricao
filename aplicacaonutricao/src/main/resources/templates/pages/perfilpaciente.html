@@ -9,6 +9,27 @@
 <title>Simple Sidebar - Start Bootstrap Template</title>
 <!-- Favicon-->
 <div th:insert="parts/importcss"></div>
+<style>
+img{
+	border:2px solid black;
+}
+@media only screen and (max-width: 780px) {
+  /* For mobile phones: */
+ img{
+		width:100px !important;
+		margin-left:6em;
+	}
+	
+	.botao-perfil button{
+		margin-top:1em !important;
+	}
+}
+
+
+
+</style>
+
+
 </head>
 <body>
 
@@ -22,14 +43,15 @@
 			<div th:include="parts/topnavigation"></div>
 			<!-- Page content-->
 			<div class="container-fluid">
+				<div class="titulo" >
 				
-				<a  th:href="@{/pacientes/crud/acessar}" ><button class="btn btn-primary mt-3">VOLTAR</button></a>
+				<a  th:href="@{/pacientes/crud/acessar}" ><button class="btn btn-primary ">VOLTAR</button></a>
 				
-				<h1 class="mt-4">
+				<h1 style="text-align:center">
 					Perfil do Paciente <i class="bi bi-person-circle"></i> <input
-						type="hidden" id="idpaciente" th:value="${paciente.id}">
+						type="hidden" id="idpaciente" th:value="${paciente.id}"></div>
 				</h1>
-				<h3> Proxima Consulta : <span id="proximaconsulta"></span></h3>
+				<h4> Proxima Consulta : <b><span id="proximaconsulta"></span></b></h4>
 				<form th:action="@{/pacientes/crud/salvar}" id="formulario_paciente">
 				<div class="row">
 				<div class="form-group">

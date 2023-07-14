@@ -81,16 +81,17 @@ public class DietaService {
 		refeicaoRepository.save(entity);
 		repository.save(dieta);
 
-		return todasAsRefeicoesEmJson(paciente);
+		return JsonMapper
+				.mapearJson(dieta.getRefeicoes()
+						.stream()
+						.map(CalcularMacros::refeicao)
+						.collect(Collectors.toList()));
 
 	}
 
 	public String todasAsRefeicoesEmJson(Long paciente) {
 
 		Dieta d = repository.findByPaciente(paciente);
-
-//		List<RefeicaoDTO> collect = d.getRefeicoes().stream().map(refeicaoMapper::toDTO).sorted(Comparator.comparing(RefeicaoDTO::getHorario)).collect(Collectors.toList());
-
 		if (d == null) {
 			return JsonMapper.mapearJson(new ArrayList<>());
 		}

@@ -9,7 +9,22 @@
 <title>Simple Sidebar - Start Bootstrap Template</title>
 <!-- Favicon-->
 <div th:insert="parts/importcss"></div>
+<style>
 
+@media only screen and (max-width: 765px) {
+  /* For mobile phones: */
+ img{
+		display:none !important;
+	}
+	.foto{
+	
+		display:none;
+	}
+	
+}
+
+
+</style>
 </head>
 <body>
 	<div class="d-flex" id="wrapper">
@@ -23,13 +38,14 @@
 
 			<!-- Page content-->
 			<div class="container-fluid">
-				<h1 class="mt-4">
+				<div class="titulo">
+				<h1 >
 					<i class="bi-people"></i> Pacientes
 				</h1>
-
+				</div>
 				<button class="btn btn-success" data-bs-target="#modalCadastro"
 					data-bs-toggle="modal">
-					<i class="bi-window"></i>Novo
+					<i class="bi bi-patch-plus"></i> Novo
 				</button>
 
 
@@ -37,7 +53,7 @@
 				<table class="table mt-2 tabela-pacientes"
 					id="tabela-lista-pacientes">
 					<thead>
-						<th>FOTO</th>
+						<th class="foto">FOTO</th>
 						<th>NOME</th>
 						<th>TELEFONE <i class="bi bi-telephone-fill"></i>
 						</th>
@@ -237,9 +253,9 @@
 				var column='';
 
 				if (e.foto!=null){
-					column+=`<td><img src="${e.foto}"/></td>`
+					column+=`<td class="foto"><img src="${e.foto}"/></td>`
 				}else{
-					column+=`<td><img src="/img/semperfil-foto.png"/></td>`
+					column+=`<td class="foto"><img src="/img/semperfil-foto.png"/></td>`
 				}
 				
 				column+=`<td>${e.nome}</td>`;
