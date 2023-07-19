@@ -83,7 +83,7 @@
 
 	<div class="modal fade" id="modalCadastro" aria-hidden="true"
 		aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-		<div class="modal-dialog modal-xxl" >
+		<div class="modal-dialog modal-lg" >
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalToggleLabel">Novo
@@ -213,9 +213,21 @@
 					&& paciente.cpf.trim()!='' 
 					&& paciente.dataDeNascimento.trim()!=''
 					&& paciente.endereco.trim()!=''){
-			$.post('/pacientes/crud', paciente).done(function(response) {
-				limparFormulario("formulario_paciente");
-				sucesso("Paciente salvo com sucesso.")
+// 			$.post('/pacientes/crud', JSON.stringify(paciente)).done(function(response) {
+				
+				$.ajax({
+					  url: "/pacientes/crud",
+					  type: "POST",
+					  data: JSON.stringify(paciente),
+					  contentType: "application/json",
+					}).done(function(response,status,xhr) {
+				if (xhr.status===201){
+				
+					limparFormulario("formulario_paciente");
+					sucesso("Paciente salvo com sucesso.")
+				}
+				
+				
 			}).fail(function(xhr) {
 				alert("Erro ao salvar o paciente: " + xhr.responseText);
 			});
@@ -231,10 +243,12 @@
 				parampagina='?page='+page;
 			}
 			
-			$.get('/pacientes/crud'+parampagina).done(function(response) {
-				var pageData=JSON.parse(response);
-				fillTable(pageData);
-				paginacao('paginacao-todos-pacientes', pageData, 'listarPacientes')
+			$.get('/pacientes/crud'+parampagina).done(function(response,status,xhr) {
+				  	responseCheck(xhr);
+					var pageData=JSON.parse(response);
+					fillTable(pageData);
+					paginacao('paginacao-todos-pacientes', pageData, 'listarPacientes')	
+				
 			}).fail(function(xhr) {
 				alert("Erro ao salvar o paciente: " + xhr.responseText);
 			});

@@ -19,7 +19,7 @@
 <!-- <link rel="stylesheet" -->
 <!-- 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
 
-		<div th:insert="parts/importcss"></div>
+<div th:insert="parts/importcss"></div>
 
 </head>
 <body>
@@ -30,15 +30,17 @@
 		<!-- Page content wrapper-->
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
-		<div th:insert="parts/topnavigation"></div>
+			<div th:insert="parts/topnavigation"></div>
 
 			<!-- Page content-->
-			<div class="container-fluid"><div class="titulo">
-							<a  th:href="@{/pacientes/crud/{id}(id=${paciente})}" ><button class="btn btn-primary mt-3">VOLTAR</button></a>
-				
-				<h1>
-					DIETA <span th:text="${paciente}" id="paciente" />
-				</h1>
+			<div class="container-fluid">
+				<div class="titulo">
+					<a th:href="@{/pacientes/crud/{id}(id=${paciente})}"><button
+							class="btn btn-primary mt-3">VOLTAR</button></a>
+
+					<h1>
+						DIETA <span th:text="${paciente}" id="paciente" />
+					</h1>
 				</div>
 				<form id="formulario_refeicao"
 					th:action="@{/dietas/{id}(id=${paciente})}" method="post"
@@ -59,9 +61,11 @@
 
 						</div>
 						<div class="mt-2" id="alerta"></div>
-						
+
 						<button class="btn btn-primary mt-2" onclick="novaRefeicao()"
-							type="button"><i class="bi bi-patch-plus"></i> Nova Refeição</button>
+							type="button">
+							<i class="bi bi-patch-plus"></i> Nova Refeição
+						</button>
 
 					</div>
 				</form>
@@ -167,14 +171,28 @@
 								class="btn btn-primary mb-2 form-control mx-sm-1 mt-1">Pronto</button>
 
 						</div>
-						<div class="macros-refeicao">
-							<p id="caloriarefeicao"></p>
-							<p id="proteinarefeicao"></p>
-							<p id="carboidratorefeicao"></p>
-							<p id="gordurarefeicao"></p>
-						</div>
+						<div id="alertamodal"></div>
 
-						<table id="tabelaalimentosrefeicao-tabela" class="table"
+						<div class="macros-refeicao">
+							<table class="table table-bordered">
+								<th>CALORIAS</th>
+								<th>PROTEINAS</th>
+								<th>CARBOIDRATOS</th>
+								<th>GORDURAS</th>
+								<tbody>
+									<td id="caloriarefeicao"></td>
+									<td id="proteinarefeicao"></td>
+									<td id="carboidratorefeicao"></td>
+									<td id="gordurarefeicao"></td>
+
+								</tbody>
+							</table>
+							<!-- 							<p id="caloriarefeicao"></p> -->
+							<!-- 							<p id="proteinarefeicao"></p> -->
+							<!-- 							<p id="carboidratorefeicao"></p> -->
+							<!-- 							<p id="gordurarefeicao"></p> -->
+						</div>
+						<table id="tabelaalimentosrefeicao-tabela" class="table "
 							style="margin-top: 2em">
 							<thead>
 								<th style="width: 30%">Nome</th>
@@ -254,11 +272,23 @@
 			};
 			console.log("Refeicao adicionada => "+refeicao);
 			if (refeicao.nome.trim() != '' && refeicao.horario.trim() != '') {
-				console.log("Fazendo a requisição")
-				$.post('/refeicao/nova/'+id, refeicao).done(function(response) {
-					limparFormulario("formulario_refeicao");
-					sucesso("Refeição criada com sucesso.")
-					findAllRefs();
+// 				$.post('/refeicao/nova/'+id, JSON.stringify(refeicao),{
+// 					  contentType: 'application/json'
+// 				}).
+					
+					$.ajax({
+					  url: "/refeicao/nova/"+id,
+					  type: "POST",
+					  data: JSON.stringify(refeicao),
+					  contentType: "application/json",
+					}).done(function(response,status,xhr) {
+					
+					if (xhr.status===200){
+						limparFormulario("formulario_refeicao");
+						sucesso("Refeição criada com sucesso.")
+						findAllRefs();
+					}
+					
 				}).fail(function(xhr) {
 					tratarErro(xhr);
 				});
@@ -344,10 +374,18 @@
 			
 				if (alimento.trim() != '') {
 				console.log("Fazendo a requisição")
-				$.post('/refeicao/'+refeicao, ali).done(function(response) {
+// 				$.post('/refeicao/'+refeicao, ali,{
+// 					  contentType: 'application/json'
+// 				}).
+				$.ajax({
+					  url: "/refeicao/"+refeicao,
+					  type: "POST",
+					  data: JSON.stringify(ali),
+					  contentType: "application/json",
+					}).done(function(response) {
 					findRef();
 				}).fail(function(xhr) {
-					tratarErro(xhr);
+					tratarErro(xhr,"alertamodal");
 				});
 			}
 		}
@@ -429,10 +467,10 @@
 					carboidrato+=e.carboidrato;
 					gordura+=e.gordura;
 				})
-				$("#caloriarefeicao").html("Calorias "+caloria);
-				$("#proteinarefeicao").html("Proteinas(g) "+proteina);
-				$("#carboidratorefeicao").html("Carboidrato(g) "+carboidrato);
-				$("#gordurarefeicao").html("Gordura(g) "+gordura);
+				$("#caloriarefeicao").html(caloria);
+				$("#proteinarefeicao").html(proteina);
+				$("#carboidratorefeicao").html(carboidrato);
+				$("#gordurarefeicao").html(gordura);
 
 				console.log(caloria+" "+proteina+" "+carboidrato+" "+gordura)
 

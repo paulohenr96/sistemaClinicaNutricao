@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nutricao.aplicacaonutricao.dto.LoginDTO;
@@ -14,7 +15,7 @@ import com.nutricao.aplicacaonutricao.util.PAGINAS;
 import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Controller
-@RequestMapping({"/login"})
+@RequestMapping("/login")
 public class LoginController {
 
 	
@@ -28,10 +29,9 @@ public class LoginController {
 	
 	
 	@PostMapping
-	public ResponseEntity<Object> entrar(Model model,LoginDTO user) {
+	public ResponseEntity<Object> entrar(Model model,@RequestBody LoginDTO user) {
 		
-		String retorno=PAGINAS.PAGINA_INDEX;
-		retorno=service.login(user);
+		service.login(user);
 		
 		return ResponseEntity.ok("entrou");
 	}

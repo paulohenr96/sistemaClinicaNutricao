@@ -12,7 +12,7 @@ import ch.qos.logback.core.model.Model;
 public class WelcomeController {
 
 	
-	@GetMapping({"/home"})
+	@GetMapping("/home")
 	public String inicial(ModelAndView model) {
 		
 		return PAGINAS.PAGINA_INDEX;
@@ -22,12 +22,12 @@ public class WelcomeController {
 		
 		return PAGINAS.PAGINA_INDEX;
 	}
-	
-	@GetMapping("/alimentos")
-	public String paginaAlimentos(ModelAndView model) {
-		
-		return "alimentos.html";
-	}
+//	
+//	@GetMapping("/alimentos")
+//	public String paginaAlimentos(ModelAndView model) {
+//		
+//		return PAGINAS.PAGINA_ALIMENTOS;
+//	}
 	
 	
 	@GetMapping("/pacientes")

@@ -20,6 +20,7 @@ public class RefeicaoDTO {
     @JsonFormat(pattern = "HH:mm")
 	private LocalTime horario;
 	
+    
     private BigDecimal caloria;   
     private BigDecimal proteina;   
     private BigDecimal carboidrato;   

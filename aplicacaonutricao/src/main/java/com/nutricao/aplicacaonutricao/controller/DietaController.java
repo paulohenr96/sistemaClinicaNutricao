@@ -38,9 +38,8 @@ public class DietaController {
 	
 	@PostMapping("{paciente}")
 	public ResponseEntity<Object> adicionarRefeicao(@PathVariable Long paciente,Model model,
-			@ModelAttribute(name = "refeicao") RefeicaoDTO refeicaoDTO) {
+			@RequestBody RefeicaoDTO refeicaoDTO) {
 		
-		System.out.println(refeicaoDTO.getNome());
 		String json=service.novaRefeicao(refeicaoDTO,paciente);
 		
 		model.addAttribute("paciente",paciente);

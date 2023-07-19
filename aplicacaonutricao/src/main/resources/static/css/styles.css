@@ -11471,3 +11471,15 @@ align-items:center;
 		margin-top:1em !important;
 	}
 }
+
+body{
+	
+	background-image: url("/img/foto-nutricionista2.jpg");
+	background-size:cover;
+	
+}
+#page-content-wrapper{
+	background-color:white !important;
+	padding-bottom:2em;
+	opacity: 0.95;
+}

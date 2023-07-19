@@ -79,6 +79,7 @@ public class PacienteService {
 		Paciente paciente = optional.get();
 		paciente.setCpf(dto.getCpf());
 		paciente.setNome(dto.getNome());
+		paciente.setTelefone(dto.getTelefone());
 		paciente.setEndereco(dto.getEndereco());
 		paciente.setDescricao(dto.getDescricao());
 		paciente.setDataDeNascimento(dto.getDataDeNascimento());

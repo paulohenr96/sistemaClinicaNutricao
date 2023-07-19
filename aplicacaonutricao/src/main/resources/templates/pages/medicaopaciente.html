@@ -206,7 +206,10 @@
 				page="?page="+pagina
 
 			}
-			$.get('/medicoes/'+id+"/crud"+page).done(function(response) {
+			console.log(id);
+			$.get('/medicoes/'+id+"/crud"+page).done(function(response,status,xhr) {
+			  	responseCheck(xhr);
+
 				var pagina=JSON.parse(response);
 				console.log(response);
 				incrementarTabela(pagina.content);
@@ -234,7 +237,17 @@
 					medicao.data.trim() != '' &&
 					medicao.percentualDeGordura.trim() != '') {
 				console.log("Fazendo a requisição")
-				$.post('/medicoes/'+paciente, medicao).done(function(response) {
+// 				$.post('/medicoes/'+paciente, medicao).
+				
+				$.ajax({
+					  url: "/medicoes/"+paciente,
+					  type: "POST",
+					  data: JSON.stringify(medicao),
+					  contentType: "application/json",
+					}).
+				
+				
+				done(function(response) {
 
 					sucesso("Medição salva com sucesso.")
 					findAllMedicao();

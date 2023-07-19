@@ -2,6 +2,7 @@ package com.nutricao.aplicacaonutricao.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,9 +35,9 @@ public class PacientesController {
 	
 	
 	@PostMapping
-	public ResponseEntity<String> salvar(Model model,@ModelAttribute(name = "paciente") PacienteDTO paciente) {
+	public ResponseEntity<String> salvar(Model model,@RequestBody PacienteDTO paciente) {
 		service.salvar(paciente);
-		return ResponseEntity.ok("salvo");
+		return new ResponseEntity<String>("salvo",HttpStatus.CREATED);
 	}
 	
 	@GetMapping("acessar")
@@ -72,8 +74,7 @@ public class PacientesController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<String> editar(Model model,@ModelAttribute(name = "paciente") PacienteDTO paciente) {
-		System.out.println("Descricao = > "+paciente.getDescricao());
+	public ResponseEntity<String> editar(Model model,@RequestBody PacienteDTO paciente) {
 		service.updatePaciente(paciente);
 		return ResponseEntity.ok("Mudanças realizadas com sucesso.");
 	}

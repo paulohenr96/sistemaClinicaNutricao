@@ -58,10 +58,12 @@ public class WebSecurityConfig {
 				// ...
 				.csrf().disable()
 				.formLogin(form -> form.loginPage("/login").permitAll().successForwardUrl("/home").isCustomLoginPage())
+				.logout()
+				.and()
 				
 				.authorizeHttpRequests(
 						(authorize) -> authorize
-						.requestMatchers("/img/**").permitAll()
+						.requestMatchers("/img/**","/login?logout").permitAll()
 							
 						.anyRequest().authenticated());
 

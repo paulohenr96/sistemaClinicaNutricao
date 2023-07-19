@@ -27,20 +27,20 @@
 		width:100% !important;}
 		
 		input{
-		background-color:transparent !important;
+/* 		background-color:transparent !important; */
 		font-weight:bold;
 		}
 		
 	button{ 
 		
-		background-color:black !important;
+ 		background-color:black !important;
 		font-weight:bold !important;
-		margin-left:0;
-		border:none !important;
+/* 		margin-left:0; */
+ 		border:none !important;
 		
  		}   
  		button:hover{
- 			border:1px solid white !important;
+  			border:1px solid white !important;
  		}  
     </style>
   </head>
@@ -64,7 +64,7 @@
 <!--     <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
 <!--     <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
 <!--   </div> -->
-  <button type="submit"   class="btn btn-primary mt-2">ENTRAR</button>
+  <button type="submit"   class="btn btn-primary mt-2 w-100">ENTRAR</button>
   
   <div id="alerta" class="alert alert-warning mt-2" th:if="${param.error}">
   	Username ou password invalido.

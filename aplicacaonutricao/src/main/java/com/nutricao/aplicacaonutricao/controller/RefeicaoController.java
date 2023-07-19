@@ -3,11 +3,13 @@ package com.nutricao.aplicacaonutricao.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nutricao.aplicacaonutricao.dto.AlimentoRefeicaoDTO;
@@ -24,19 +26,9 @@ public class RefeicaoController {
 
 	private final RefeicaoService service;
 
-//	@GetMapping("{paciente}")
-//	public String verRefeicao(@PathVariable Long paciente,Model model) {
-//		
-//		model.addAttribute("paciente",paciente);
-//
-//		System.out.println(paciente);
-//		return "dietapaciente";
-//	}
-//	
-
 	@PostMapping("{refeicao}")
-	public ResponseEntity<Object> adicionarRefeicao(@PathVariable Long refeicao, Model model,
-			@ModelAttribute(name = "alimento") AlimentoRefeicaoDTO a) {
+	public ResponseEntity<Object> adicionarAlimentoRefeicao(@PathVariable Long refeicao, Model model,
+			@RequestBody AlimentoRefeicaoDTO a) {
 
 		service.addalimento(refeicao, a);
 
@@ -45,7 +37,7 @@ public class RefeicaoController {
 
 	@PostMapping("nova/{paciente}")
 	public ResponseEntity<Object> adicionarRefeicao(@PathVariable Long paciente, Model model,
-			@ModelAttribute(name = "refeicao") RefeicaoDTO r) {
+		 @RequestBody RefeicaoDTO r) {
 
 		service.salvar(paciente, r);
 
@@ -54,31 +46,13 @@ public class RefeicaoController {
 	
 	
 	@DeleteMapping("alimento/{alimento}")
-	public ResponseEntity<Object> removerAlimento(@PathVariable Long alimento, Model model) {
+	public ResponseEntity<Object> removerAlimentoRefeicao(@PathVariable(name="alimento") Long alimentoRefeicao, Model model) {
 
-		service.removerAlimento(alimento);
+		service.removerAlimento(alimentoRefeicao);
 
 		return ResponseEntity.ok("ok");
 	}
 
-//	@PostMapping("{paciente}")
-//	public ResponseEntity<Object> adicionarRefeicao(@PathVariable Long paciente,Model model,
-//			@ModelAttribute(name = "refeicao") RefeicaoDTO refeicaoDTO) {
-//		
-//		System.out.println(refeicaoDTO.getNome());
-//		String json=service.novaRefeicao(refeicaoDTO,paciente);
-//		
-//		model.addAttribute("paciente",paciente);
-//		return ResponseEntity.ok(json);
-//	}
-//	
-//
-//	@GetMapping("{paciente}/crud")
-//	public ResponseEntity<Object> todasRefs(@PathVariable Long paciente,Model model) {
-//
-//		return ResponseEntity.ok(service.todasAsRefeicoesEmJson(paciente));
-//	}
-//	
 	@GetMapping("/{refeicao}")
 	public ResponseEntity<Object> findRefeicaoById(@PathVariable Long refeicao, Model model) {
 		RefeicaoDTO findById = service.findById(refeicao);

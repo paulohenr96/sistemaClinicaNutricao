@@ -7,7 +7,12 @@
 // Scripts
 // 
 
-
+function responseCheck(xhr) {
+	const contentType = xhr.getResponseHeader('Content-Type');
+	if (contentType.split(";")[0] === 'text/html') {
+		window.location.href = '/login';
+	}
+}
 
 window.addEventListener('DOMContentLoaded', event => {
 
@@ -200,7 +205,14 @@ function limparFormulario(id) {
 
 function tratarErro(xhr, id) {
 	//	var erro = JSON.parse(xhr.responseText);
-	error(xhr.responseText, id);
+
+	if (xhr.status === 405 || xhr.status === 403) { //quando a sessão expira
+
+		error("Problema de Autenticação, efetue o login novamente.", id)
+	} else {//quando para a aplicação
+		error("Ocorreu um erro interno, entre em contato com nosso suporte. =>" + xhr.responseText, id);
+	}
+
 }
 
 function sucesso(msg, id) {

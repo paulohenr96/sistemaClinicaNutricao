@@ -7,13 +7,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,9 +46,10 @@ public class ConsultaController {
 		return PAGINAS.PAGINA_DIETA_PACIENTE;
 	}
 	
+	@PreAuthorize(value = "authenticated")
 	@PostMapping("{paciente}")
 	public ResponseEntity<Object> novaConsulta(@PathVariable Long paciente,Model model,
-			@ModelAttribute(name = "consulta") ConsultaDTO consultaDTO) {
+			@RequestBody ConsultaDTO consultaDTO) {
 		
 		service.salvar(consultaDTO,paciente);
 		

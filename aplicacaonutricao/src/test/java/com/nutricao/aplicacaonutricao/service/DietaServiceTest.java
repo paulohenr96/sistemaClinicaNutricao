@@ -174,7 +174,7 @@ public class DietaServiceTest {
 
 	String saida = service.todasAsRefeicoesEmJson(p.getId());
 	
-	assertTrue(saida==null);
+	assertTrue(saida.equals(JsonMapper.mapearJson(new ArrayList<>())));
 	verify(repo, atMostOnce()).findByPaciente(p.getId());
 
 	

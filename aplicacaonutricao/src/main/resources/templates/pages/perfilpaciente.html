@@ -260,7 +260,6 @@ img{
 				var base64String = event.target.result;
 				
 				
-				console.log(base64String);
 				$("#foto-perfil-preview").attr('src',base64String);
 			};
 			
@@ -276,7 +275,9 @@ img{
 		function proximaConsulta(){
 			var paciente=$("#idpaciente").val();
 			
-			$.get('/consultas/proximaconsulta/'+paciente).done(function(response) {
+			$.get('/consultas/proximaconsulta/'+paciente).done(function(response,status,xhr) {
+			  	responseCheck(xhr);
+
 				console.log(response);
 				var consulta=JSON.parse(response);
 				console.log(consulta);
@@ -319,6 +320,8 @@ img{
 							sucesso("Agendado com sucesso", "alertamodal");
 							
 							todasConsultas();
+							proximaConsulta();
+
 						}).fail(function(xhr) {
 					tratarErro(xhr,"alertamodal");
 				});
@@ -346,11 +349,28 @@ img{
 					&& paciente.cpf.trim() != ''
 					&& paciente.endereco.trim() != '') {
 				console.log("Fazendo a requisição")
-				$.post('/pacientes/crud', paciente).done(function(response) {
-					sucesso("Mudanças realizadas");
-				}).fail(function(xhr) {
-					tratarErro(xhr);
-				});
+				$.ajax({
+					  url: "/pacientes/crud",
+					  type: "PUT",
+					  data: JSON.stringify(paciente),
+					  contentType: "application/json",
+					}).done(function(response,status) {
+						  // The request was successful
+						 if (status === 'success') {
+						        sucesso("Mudanças realizadas");
+						    	console.log(response.status);
+
+						    } else {
+						    	console.log(response.status);
+						        alertar("erro de autenticação=> "+response);
+						    }	
+					}).fail(function(xhr) {
+					  // The request failed
+					  	console.log(xhr);
+						tratarErro(xhr);
+					
+
+					});
 			} else {
 				alertar("Preencha todos os campos.")
 			}
@@ -390,7 +410,9 @@ img{
 			
 			var paciente=$("#idpaciente").val();
 			
-			$.get('/consultas/todas/'+paciente+parampagina).done(function(response) {
+			$.get('/consultas/todas/'+paciente+parampagina).done(function(response,status,xhr) {
+			  	responseCheck(xhr);
+
 				var dadospagina=JSON.parse(response);
 				console.log(dadospagina.content);
 				

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,7 +38,7 @@ public class MedicaoController {
 
 	@PostMapping("/{paciente}")
 	public ResponseEntity<Object> adicionarMedicao(@PathVariable Long paciente, Model model,
-			@ModelAttribute(name = "medicao") MedicaoDTO medicao) {
+			@RequestBody MedicaoDTO medicao) {
 
 		service.salvar(medicao,paciente);
 
@@ -50,7 +51,7 @@ public class MedicaoController {
 			@RequestParam(name = "size", defaultValue = "5") Integer size) {
 
 		Page<MedicaoDTO> medicao = service.findAllMedicaoPaginado(paciente, PageRequest.of(page, size));
-
+		System.out.println(medicao.getNumberOfElements());
 		return ResponseEntity.ok(JsonMapper.mapearJson(medicao));
 	}
 
@@ -62,30 +63,6 @@ public class MedicaoController {
 		return ResponseEntity.ok(JsonMapper.mapearJson(medicao));
 	}
 
-//	@GetMapping("{paciente}/altura")
-//	public ResponseEntity<String> todasAsMedicoesParaGraficoAltura(@PathVariable Long paciente, Model model) {
-//
-//		Page<MedicaoDTO> medicao = service.findAllMedicao(paciente, "altura");
-//
-//		return ResponseEntity.ok(JsonMapper.mapearJson(medicao));
-//	}
-//
-//	@GetMapping("{paciente}/percentualdegordura")
-//	public ResponseEntity<String> todasAsMedicoesParaGraficoPercentualDeGordura(@PathVariable Long paciente,
-//			Model model) {
-//
-//		Page<MedicaoDTO> medicao = service.findAllMedicao(paciente, "percentualDeGordura");
-//
-//		return ResponseEntity.ok(JsonMapper.mapearJson(medicao));
-//	}
-//
-//	@GetMapping("{paciente}/peso")
-//	public ResponseEntity<String> todasAsMedicoesParaGraficoPeso(@PathVariable Long paciente, Model model) {
-//
-//		Page<MedicaoDTO> medicao = service.findAllMedicao(paciente, "peso");
-//
-//		return ResponseEntity.ok(JsonMapper.mapearJson(medicao));
-//	}
 	@DeleteMapping("/{medicao}")
 	public ResponseEntity<Object> findRefeicaoById(@PathVariable Long medicao,Model model) {
 		service.deleteMedicaoByID(medicao);

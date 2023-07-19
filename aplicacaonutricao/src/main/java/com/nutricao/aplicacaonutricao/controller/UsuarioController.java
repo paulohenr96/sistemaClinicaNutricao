@@ -30,20 +30,12 @@ public class UsuarioController {
 	
 	@GetMapping("acessar")
 	public String redirecionar(Model model) {
-		SecurityContextHolder.getContext().getAuthentication().getName();
+
 		UsuarioDTO usuario = service.findUsuario();
 		model.addAttribute("usuario",usuario);
 		return PAGINAS.PAGINA_PERFIL;
 	}
 	
-	
-	@GetMapping
-	public String findUsuario(@PathVariable Long id,Model model) {
-		
-		service.findUsuario();
-		
-		return PAGINAS.PAGINA_PERFIL_PACIENTE;
-	}
 	
 	
 	@PutMapping
