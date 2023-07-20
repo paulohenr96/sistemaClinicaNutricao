@@ -139,6 +139,12 @@
 		function pegarImg() {
 			var foto = $("#foto")[0].files[0];
 			var reader = new FileReader();
+			var tamanhoMB=foto.size/1_000_000;
+			if (tamanhoMB>1){
+				error("A imagem não pode pesar mais de 1 MB.");
+				$("#foto").val('');
+				return;
+			}
 			if (foto=== undefined)
 				{
 				$("#foto-perfil-preview").attr('src', '/img/semperfil-foto.png');

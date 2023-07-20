@@ -36,11 +36,14 @@ public class AlimentosController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Object>  findAllAlimentos(Model model) {
-		Page<AlimentoDTO> page = service.findAllAlimento(PageRequest.of(0, 3));
-		model.addAttribute("alimentos", page);
-		System.out.println(page.getContent());
-		return ResponseEntity.ok(JsonMapper.mapearJson(page.getContent()));
+	public ResponseEntity<Object>  findAllAlimentos(Model model,
+			
+			@RequestParam(name="page",defaultValue = "0") Integer page,
+			@RequestParam(name="size",defaultValue="3") Integer size	
+			
+			) {
+		Page<AlimentoDTO> saida = service.findAllAlimento(PageRequest.of(page, size));
+		return ResponseEntity.ok(JsonMapper.mapearJson(saida));
 	}
 	
 	

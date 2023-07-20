@@ -52,7 +52,7 @@
 
 
 
-				<table class="table mt-2 tabela-pacientes"
+				<table class="table mt-2 tabela-pacientes" style="display:none;"
 					id="tabela-lista-pacientes">
 					<thead>
 						<th class="foto">FOTO</th>
@@ -102,6 +102,8 @@
 								
 								<div class="form-group">
 										<img src="/img/semperfil-foto.png"  id="foto-perfil-preview">
+										<canvas id="canvas-imagem" style="display: none;"></canvas>
+										
 								</div>
 				<div class="row">
 						<div class="form-group ">
@@ -157,12 +159,13 @@
 						<div class="mt-2" id="alerta"></div>
 						<button type="button" onclick="salvarPaciente()"
 							class="btn btn-primary mt-2" style="margin-top: 20px">Salvar</button>
+							<button class="btn btn-primary mt-2"
+						
+						onclick="limparTudo()">Limpar Formulario</button>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary"
-						data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-						data-bs-dismiss="modal">Open second modal</button>
+					
 				</div>
 			</div>
 		</div>
@@ -179,14 +182,24 @@
 		listarPacientes();	
 	})
 	
-	
+	function limparTudo(){
+		$("#descricao").val('');
+		limparFormulario("formulario_paciente");
+		$("#foto-perfil-preview").attr('src','/img/semperfil-foto.png');
+
+		
+	}
 	function pegarImg(){
 			var foto=$("#foto")[0].files[0];
 			var reader=new FileReader();
-			
+			var tamanhoMB=foto.size/1_000_000;
+			if (tamanhoMB>1){
+				error("A imagem não pode pesar mais de 1 MB.");
+				$("#foto").val('');
+				return;
+			}
 			reader.onload=function(event){
 				var base64String = event.target.result;
-				
 				
 				$("#foto-perfil-preview").attr('src',base64String);
 			};
@@ -209,7 +222,6 @@
 				endereco : $("#endereco").val(),
 				dataDeNascimento : $("#dataDeNascimento").val(),
 			};
-			console.log(paciente);
 			if (paciente.nome.trim()!='' 
 					&& paciente.telefone.trim()!='' 
 					&& paciente.cpf.trim()!='' 
@@ -223,10 +235,12 @@
 					  data: JSON.stringify(paciente),
 					  contentType: "application/json",
 					}).done(function(response,status,xhr) {
+						
+						responseCheck(xhr);
 				if (xhr.status===201){
-				
-					limparFormulario("formulario_paciente");
+					limparTudo();
 					sucesso("Paciente salvo com sucesso.")
+					
 				}
 				
 				
@@ -237,7 +251,27 @@
 				alertar("Preencha todos os campos.")
 			}
 		}
-		
+		function reduzirImagem(image) {
+			
+		    const canvas = document.getElementById('canvas-imagem');
+
+			const ctx = canvas.getContext('2d');
+
+			const novaLargura=200;
+			const novaAltura=150;
+			
+			canvas.width=novaLargura;
+			canvas.height=novaAltura;
+		    ctx.drawImage(image, 0, 0, novaLargura, novaAltura);
+		    
+		    const dataURL = canvas.toDataURL();
+
+		    const novaImagem = new Image();
+// 		    novaImagem.src = dataURL;
+			console.log(dataURL);
+		}
+
+			
 		function listarPacientes(page) {
 			var parampagina='';
 			
@@ -248,8 +282,12 @@
 			$.get('/pacientes/crud'+parampagina).done(function(response,status,xhr) {
 				  	responseCheck(xhr);
 					var pageData=JSON.parse(response);
+					
 					fillTable(pageData);
-					paginacao('paginacao-todos-pacientes', pageData, 'listarPacientes')	
+					if (!pageData.isEmpty){
+						paginacao('paginacao-todos-pacientes', pageData, 'listarPacientes')	
+
+					}
 				
 			}).fail(function(xhr) {
 				alert("Erro ao salvar o paciente: " + xhr.responseText);
@@ -262,6 +300,7 @@
 				
 				return;
 			}
+			$("#tabela-lista-pacientes").show();
 			$("#tabela-lista-pacientes > tbody").html('');
 
 			pageData.content.forEach((e)=>{

@@ -33,9 +33,8 @@ public class ConsultaService {
 
 		Paciente p = new Paciente();
 		p.setId(paciente);
-		dto.setPaciente(p);
 		Consulta consulta = mapper.toEntity(dto);
-
+		consulta.setPaciente(p);
 		consulta.setStatus("AGUARDANDO");
 
 		repository.save(consulta);

@@ -3,9 +3,8 @@ package com.nutricao.aplicacaonutricao.mapper;
 import org.springframework.stereotype.Component;
 
 import com.nutricao.aplicacaonutricao.dto.ConsultaDTO;
-import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
+import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.model.Consulta;
-import com.nutricao.aplicacaonutricao.model.Refeicao;
 
 @Component
 public class ConsultaMapperImp implements Mapper<Consulta, ConsultaDTO> {
@@ -16,7 +15,10 @@ public class ConsultaMapperImp implements Mapper<Consulta, ConsultaDTO> {
 		ConsultaDTO dto=new ConsultaDTO();
 		
 		dto.setId(entity.getId());
-		dto.setPaciente(entity.getPaciente());
+		PacienteDTO paciente = new PacienteDTO();
+		paciente.setId(entity.getPaciente().getId());
+		paciente.setNome(entity.getPaciente().getNome());
+		dto.setPaciente(paciente);
 		dto.setHorario(entity.getHorario());
 		dto.setStatus(entity.getStatus());
 		
@@ -32,10 +34,7 @@ public class ConsultaMapperImp implements Mapper<Consulta, ConsultaDTO> {
 			entity.setId(dto.getId());
 
 		}
-		if (dto.getPaciente()!=null) {
-			entity.setPaciente(dto.getPaciente());
-
-		}
+		
 		entity.setHorario(dto.getHorario());
 		if (dto.getStatus()!=null) {
 			entity.setStatus(dto.getStatus());

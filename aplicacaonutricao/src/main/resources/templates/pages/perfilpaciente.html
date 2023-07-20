@@ -47,7 +47,11 @@ img{
 			<div class="container-fluid">
 				<div class="titulo" >
 				
-				<a  th:href="@{/pacientes/crud/acessar}" ><button class="btn btn-primary ">VOLTAR</button></a>
+				<a  th:href="@{/pacientes/crud/acessar}" >
+				<button class="btn btn-primary mt-2">
+				<i class="bi bi-arrow-left-square"></i>
+				
+				VOLTAR</button></a>
 				
 				<h1 style="text-align:center">
 					Perfil do Paciente <i class="bi bi-person-circle"></i> <input
@@ -257,7 +261,12 @@ img{
 		function pegarImg(){
 			var foto=$("#foto")[0].files[0];
 			var reader=new FileReader();
-			
+			var tamanhoMB=foto.size/1_000_000;
+			if (tamanhoMB>1){
+				error("A imagem não pode pesar mais de 1 MB.");
+				$("#foto").val('');
+				return;
+			}
 			reader.onload=function(event){
 				var base64String = event.target.result;
 				

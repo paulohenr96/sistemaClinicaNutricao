@@ -27,7 +27,7 @@ public class ConsultaDTO {
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	LocalDateTime horario;
 	
-	Paciente paciente;
+	PacienteDTO paciente;
 	
 	String status;
 	
