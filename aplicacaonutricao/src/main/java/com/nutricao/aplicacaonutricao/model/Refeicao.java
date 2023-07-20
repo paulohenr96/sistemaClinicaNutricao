@@ -30,7 +30,7 @@ public class Refeicao {
     @Column(columnDefinition = "TIME")
 	private LocalTime horario;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade =CascadeType.REMOVE,orphanRemoval = true)
 	private List<AlimentoRefeicao> alimentos=new ArrayList<>();
 	
 	@ManyToOne

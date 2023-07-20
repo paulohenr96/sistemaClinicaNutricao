@@ -6,9 +6,10 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Simple Sidebar - Start Bootstrap Template</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
+
+<title>Dieta Paiente</title>
 <!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 <!-- Core theme CSS (includes Bootstrap)-->
 <!-- <link href="css/styles.css" th:href="@{/css/styles.css}" -->
 <!-- 	rel="stylesheet" /> -->
@@ -272,9 +273,6 @@
 			};
 			console.log("Refeicao adicionada => "+refeicao);
 			if (refeicao.nome.trim() != '' && refeicao.horario.trim() != '') {
-// 				$.post('/refeicao/nova/'+id, JSON.stringify(refeicao),{
-// 					  contentType: 'application/json'
-// 				}).
 					
 					$.ajax({
 					  url: "/refeicao/nova/"+id,

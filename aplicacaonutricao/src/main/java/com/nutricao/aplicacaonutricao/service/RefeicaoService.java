@@ -36,26 +36,36 @@ public class RefeicaoService {
 	private final RefeicaoMapperImp mapper;
 
 	public void salvar(Long paciente, RefeicaoDTO dto) {
-
+		Refeicao refeicao = mapper.toEntity(dto);
 		Dieta dieta=dietaRepository.findByPaciente(paciente);
+		
 		if (dieta==null) {
 			dieta = new Dieta();
-			dieta.setPaciente(pacienteRepository.findById(paciente).get());
-			dietaRepository.save(dieta);
-
-
+			Paciente p = pacienteRepository.findById(paciente).get();
+			relacionamentoDietaPaciente(dieta,p);
 		} 
 		
-
-		Refeicao refeicao = mapper.toEntity(dto);
 		
-		dieta.getRefeicoes().add(refeicao);
+		relacionamentoRefeicaoDieta(refeicao,dieta);
+
+
+	}
+
+	private void relacionamentoRefeicaoDieta(Refeicao refeicao, Dieta dieta) {
+		// TODO Auto-generated method stub
 		refeicao.setDieta(dieta);
+		Refeicao save = repository.save(refeicao);
+		dieta.getRefeicoes().add(save);
 		
-		repository.save(refeicao);
 		dietaRepository.save(dieta);
+	}
 
-
+	private void relacionamentoDietaPaciente(Dieta dieta, Paciente p) {
+		// TODO Auto-generated method stub
+		dieta.setPaciente(p);
+		Dieta save = dietaRepository.save(dieta);
+		p.setDieta(save);
+		pacienteRepository.save(p);
 	}
 
 	public void addalimento(Long refeicao, AlimentoRefeicaoDTO ali) {
@@ -67,16 +77,16 @@ public class RefeicaoService {
 		ar.setQuantidade(ali.getQuantidade());
 		Long idAlimento = ali.getAlimento();
 		Alimento a = alimentoRepository.findById(idAlimento).get();
-
 		ar.setAlimento(a);
-		ar.setRefeicao(r);
-		r.getAlimentos().add(ar);
-
-		alimentoRefeicaoRepository.save(ar);
-		repository.save(r);
+		relacionamentoRefeicaoAlimento(ar,r);
 
 	}
-
+	private void relacionamentoRefeicaoAlimento(AlimentoRefeicao ar,Refeicao r) {
+		ar.setRefeicao(r);
+		AlimentoRefeicao save = alimentoRefeicaoRepository.save(ar);
+		r.getAlimentos().add(save);
+		repository.save(r);
+	}
 	public List<RefeicaoDTO> findAllByDieta(Long dieta) {
 
 		return repository.findAllByDieta(dieta).stream().map(mapper::toDTO).collect(Collectors.toList());

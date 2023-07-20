@@ -1,103 +1,111 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Login</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Login</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
 
-    <style>
-		body{
-			display:flex;
-			justify-content:left;
-			align-items:left;
-			padding-top:10%;
-			background-image: url("/img/foto-nutricionista2.jpg");
-			background-size:100%;
+<style>
+body {
+	display: flex;
+	justify-content: left;
+	align-items: left;
+	padding-top: 10%;
+	background-image: url("/img/foto-nutricionista2.jpg");
+	background-size: cover;
+}
+
+.main {
+	width: 30%;
+	margin-left: 10%;
+}
+
+.img {
+	width: 100% !important;
+}
+
+input {
+	/* 		background-color:transparent !important; */
+	font-weight: bold;
+}
+
+button {
+	font-weight: bold !important;
+}
+
+button.btn-primary {
+	background-color: black !important;
+	/* 		margin-left:0; */
+	border: none !important;
+}
+
+button:hover {
+	border: 1px solid white !important;
+}
+</style>
+</head>
+<body>
+	<div class="main">
+		<div id="alerta" class="alert alert-info" th:if="${logout}">
+			Logout Realizado Com Sucesso</div>
+		<h1>Efetue o Login !</h1>
+		<form th:action="@{/login}" id="form_login" method="POST">
+			<div class="form-group">
+				<label for="username">Usuário</label> <input type="text"
+					class="form-control" id="username" aria-describedby="usernameHelp"
+					name="username" placeholder="Insira o usuario">
+				<!--     <small id="usernameHelp" class="form-text text-muted">Coloque seu usuario.</small> -->
+			</div>
+			<div class="form-group">
+				<label for="password">Senha</label> <input type="password"
+					class="form-control" id="password" name="password"
+					placeholder="Senha">
+			</div>
+			<!--   <div class="form-check"> -->
+			<!--     <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
+			<!--     <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
+			<!--   </div> -->
+			<button type="submit" class="btn btn-primary mt-2 w-100">ENTRAR</button>
+			<button type="button" onclick="entrar()"
+				class="btn btn-success mt-2 w-100">DEMO</button>
 			
-		}
-		.main{
-			width:30%;
-			margin-left:10%;
-		}
-		
-		.img{
-		width:100% !important;}
-		
-		input{
-/* 		background-color:transparent !important; */
-		font-weight:bold;
-		}
-		
-	button{ 
-		
- 		background-color:black !important;
-		font-weight:bold !important;
-/* 		margin-left:0; */
- 		border:none !important;
-		
- 		}   
- 		button:hover{
-  			border:1px solid white !important;
- 		}  
-    </style>
-  </head>
-  <body>
-  <div class="main">
-  <div id="alerta" class="alert alert-info" th:if="${param.logout}">
-  	Logout Realizado Com Sucesso
-  </div>
-    <h1>Efetue o Login !</h1>
-  	<form th:action="@{/login}" method="POST">
-  <div class="form-group">
-    <label for="username">Usuário</label>
-    <input type="text" class="form-control"  id="username" aria-describedby="usernameHelp" name="username" placeholder="Insira o usuario">
-<!--     <small id="usernameHelp" class="form-text text-muted">Coloque seu usuario.</small> -->
-  </div>
-  <div class="form-group">
-    <label for="password">Senha</label>
-    <input type="password" class="form-control" id="password"  name="password" placeholder="Senha">
-  </div>
-<!--   <div class="form-check"> -->
-<!--     <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
-<!--     <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
-<!--   </div> -->
-  <button type="submit"   class="btn btn-primary mt-2 w-100">ENTRAR</button>
-  
-  <div id="alerta" class="alert alert-warning mt-2" th:if="${param.error}">
-  	Username ou password invalido.
-  </div>
-  
-</form>
-  
-  </div>
-  <script
+			<div id="alerta" class="alert alert-warning mt-2"
+				 th:if="${param.error}">Username ou password invalido.</div>
+<div id="alerta" class="alert alert-warning mt-2"
+				 th:if="${expired}">A sessão expirou.</div>
+		</form>
+
+	</div>
+	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
-  <script>
-  
-  	function entrar(){
-  		
-  		var usuario={
-  				username:$("#username").val(),
-  				password:$("#password").val()
-  		}
-  	
-  		$.post('/login', usuario).done(function(response) {
-  			
-		}).fail(function(xhr) {
-			console.log(xhr);
-			alert("Erro ao entrar =>" + xhr.responseText);
-		});
-  		
-  		
-  	}
-  
-  </script>
-  
-  </body>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+	<script>
+		function entrar() {
+
+			var usuario = {
+				username : $("#username").val('admin'),
+				password : $("#password").val('admin')
+			}
+
+			$("#form_login").submit();
+
+		}
+	</script>
+
+</body>
 </html>

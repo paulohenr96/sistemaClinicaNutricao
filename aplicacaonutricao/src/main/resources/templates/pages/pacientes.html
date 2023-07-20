@@ -6,7 +6,9 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Simple Sidebar - Start Bootstrap Template</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
+
+<title>Pacientes</title>
 <!-- Favicon-->
 <div th:insert="parts/importcss"></div>
 <style>
@@ -281,7 +283,7 @@
 
 					</a></td>`;
 
-				column+=`<td><button class="btn">
+				column+=`<td><button onclick="deletar_paciente(${e.id})" class="btn">
 					
 					<i class="bi bi-trash-fill"></i>
 					
@@ -296,7 +298,24 @@
 			
 		}
 		
-		
+		function deletar_paciente(paciente){
+			
+			alert(paciente+" = > ");
+			$.ajax({
+				  url: '/pacientes/crud/'+paciente,
+				  type: 'DELETE',
+				  success: function(result) {
+					alert("Paciente Removido")
+					listarPacientes();
+				  },
+				  error: function(xhr, status, error) {
+					  console.log(xhr);
+					  alert(xhr.responseText)
+						tratarErro(xhr);
+				  }
+				});
+		}
+			
 	</script>
 
 </body>

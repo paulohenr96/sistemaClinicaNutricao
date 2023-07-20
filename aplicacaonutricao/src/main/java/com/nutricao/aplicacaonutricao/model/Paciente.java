@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,12 +43,12 @@ public class Paciente {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataDeNascimento;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private List<Medicao> medicoes;
 	
 	private String descricao;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.REMOVE,orphanRemoval = true)
 	private Dieta dieta;
 
 	public Paciente(Long id, String nome, String endereco, String cpf, String telefone, LocalDate dataDeNascimento,

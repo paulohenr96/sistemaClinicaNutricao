@@ -6,7 +6,9 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Simple Sidebar - Start Bootstrap Template</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
+
+<title>Paciente</title>
 <!-- Favicon-->
 <div th:insert="parts/importcss"></div>
 <style>
@@ -180,12 +182,12 @@ img{
 								</label>
 							</div>
 
-							<div class="form-group col-md-5">
+							<div class="form-group" >
 								<input id="diaConsulta" class="form-control" type="text">
 							</div>
 
-							<div class="form-group col-md-2">
-								<button class="btn btn-primary" type="button"
+							<div class="form-group">
+								<button class="btn btn-primary w-100 mt-2" type="button"
 									onclick="agendar()">Agendar Horario</button>
 							</div>
 							
@@ -315,7 +317,16 @@ img{
 				var consulta = {
 					horario : data,
 				}
-				$.post('/consultas/' + paciente, consulta).done(
+// 				$.post('/consultas/' + paciente, consulta).
+				$.ajax({
+					  url: "/consultas/"+paciente,
+					  type: "POST",
+					  data: JSON.stringify(consulta),
+					  contentType: "application/json",
+					})
+				
+				
+				.done(
 						function(response) {
 							sucesso("Agendado com sucesso", "alertamodal");
 							
@@ -323,6 +334,7 @@ img{
 							proximaConsulta();
 
 						}).fail(function(xhr) {
+							console.log(xhr);
 					tratarErro(xhr,"alertamodal");
 				});
 			} else {

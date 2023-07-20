@@ -11,7 +11,9 @@ import com.nutricao.aplicacaonutricao.calculo.CalcularMedidas;
 import com.nutricao.aplicacaonutricao.dto.MedicaoDTO;
 import com.nutricao.aplicacaonutricao.mapper.MedicaoMapperImp;
 import com.nutricao.aplicacaonutricao.model.Medicao;
+import com.nutricao.aplicacaonutricao.model.Paciente;
 import com.nutricao.aplicacaonutricao.repository.MedicaoRepository;
+import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -20,6 +22,7 @@ import lombok.AllArgsConstructor;
 public class MedicaoService {
 
 	private final MedicaoRepository repository;
+	private final PacienteRepository pacienteRepository;
 
 	private final MedicaoMapperImp mapper;
 
@@ -33,13 +36,25 @@ public class MedicaoService {
 		Medicao medicao = mapper.toEntity(dto);
 		Integer altura = medicao.getAltura();
 		BigDecimal peso = medicao.getPeso();
-
 		medicao.setImc(CalcularMedidas.imc(altura, peso));
 		
-		repository.save(medicao);
+		
+		Paciente p = pacienteRepository.findById(paciente).get();
+		relacionamento(p,medicao);
+
+		
+
 	}
 
 	
+	private void relacionamento(Paciente p, Medicao medicao) {
+		medicao.setPaciente(p);
+		Medicao save = repository.save(medicao);
+		p.getMedicoes().add(save);
+		pacienteRepository.save(p);		
+	}
+
+
 	public Page<MedicaoDTO> findAllMedicaoPaginado(Long paciente,PageRequest page){
 		return repository.findAllByPaciente(paciente,page).map(mapper::toDTO);
 	}

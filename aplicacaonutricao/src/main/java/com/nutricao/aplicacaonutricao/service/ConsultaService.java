@@ -22,22 +22,20 @@ import lombok.AllArgsConstructor;
 public class ConsultaService {
 
 	private final ConsultaRepository repository;
-	
 
 	private final ConsultaMapperImp mapper;
 
-	public void salvar(ConsultaDTO dto,Long paciente) {
-		
-		
-		if (repository.verificaDisponibilidade(dto.getHorario())>0) {
+	public void salvar(ConsultaDTO dto, Long paciente) {
+
+		if (repository.verificaDisponibilidade(dto.getHorario()) > 0) {
 			throw new RuntimeException("Já existe uma consulta neste horario");
 		}
-		
-		Paciente p=new Paciente();
+
+		Paciente p = new Paciente();
 		p.setId(paciente);
 		dto.setPaciente(p);
 		Consulta consulta = mapper.toEntity(dto);
-		
+
 		consulta.setStatus("AGUARDANDO");
 
 		repository.save(consulta);
@@ -45,13 +43,13 @@ public class ConsultaService {
 	}
 
 	public ConsultaDTO findProximaConsultaByPaciente(Long paciente) {
-		
+
 		int monthValue = LocalDateTime.now().getMonthValue();
 		int year = LocalDateTime.now().getYear();
 		int dayOfMonth = LocalDateTime.now().getDayOfMonth();
-	
+
 		LocalDateTime hoje = LocalDateTime.of(year, monthValue, dayOfMonth, 0, 0);
-		List<Consulta> list = repository.findProximaConsultaByPaciente(paciente,hoje);
+		List<Consulta> list = repository.findProximaConsultaByPaciente(paciente, hoje);
 		if (list.isEmpty()) {
 			return null;
 		}
@@ -60,14 +58,17 @@ public class ConsultaService {
 		return dto;
 
 	}
-	
 
-	
 	public List<ConsultaDTO> findConsultaByData(LocalDate data) {
-		
-		 List<Consulta> list = repository.findAllConsultaData(data);
-		
-		
+
+		List<Consulta> list = repository.findAllConsultaData(data);
+
+		return list.stream().map(mapper::toDTO).collect(Collectors.toList());
+
+	}
+	public List<ConsultaDTO> findConsultaAgendadaByData(LocalDate data) {
+
+		List<Consulta> list = repository.findAllConsultaAgendadaData(data);
 
 		return list.stream().map(mapper::toDTO).collect(Collectors.toList());
 
@@ -76,30 +77,22 @@ public class ConsultaService {
 	public void cancelar(Long consulta) {
 		// TODO Auto-generated method stub
 		Consulta c = repository.findById(consulta).get();
-		
+
 		c.setStatus("CANCELADA");
 		repository.save(c);
 	}
 
 	public void realizar(Long consulta) {
 		// TODO Auto-generated method stub
-Consulta c = repository.findById(consulta).get();
-		
+		Consulta c = repository.findById(consulta).get();
+
 		c.setStatus("REALIZADA");
 		repository.save(c);
 	}
-	
-	public Page<ConsultaDTO> findAllConsultaByPaciente(Long paciente,PageRequest of){
-		
-		
-		return repository.findAllConsultaByPaciente(paciente,of)
-				.map(mapper::toDTO);
+
+	public Page<ConsultaDTO> findAllConsultaByPaciente(Long paciente, PageRequest of) {
+
+		return repository.findAllConsultaByPaciente(paciente, of).map(mapper::toDTO);
 	}
 
-
-
-	
-	
-
-	
 }

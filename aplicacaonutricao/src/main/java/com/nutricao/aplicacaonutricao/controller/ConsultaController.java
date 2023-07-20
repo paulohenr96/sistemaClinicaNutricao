@@ -73,7 +73,14 @@ public class ConsultaController {
 		
 		return ResponseEntity.ok(JsonMapper.mapearJson(list));
 	}
-	
+	@GetMapping("agendadas")
+	public  ResponseEntity<Object> todasConsultasAgendadas(@RequestParam(name="data") String data,Model model) {
+		
+	 System.out.println("Data => "+data);
+	 List<ConsultaDTO> list = service.findConsultaAgendadaByData(LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		
+		return ResponseEntity.ok(JsonMapper.mapearJson(list));
+	}
 	
 	@PutMapping("cancelada/{consulta}")
 	public  ResponseEntity<Object> cancelarConsulta(@PathVariable Long consulta,Model model) {

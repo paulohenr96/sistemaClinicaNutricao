@@ -6,8 +6,26 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Simple Sidebar - Start Bootstrap Template</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
+
+<title>Perfil</title>
 <!-- Favicon-->
+
+<style>
+@media only screen and (max-width: 780px) {
+  /* For mobile phones: */
+ img{
+		width:100px !important;
+		margin-left:6em;
+	}
+	
+}
+
+
+
+
+
+</style>
 <div th:insert="parts/importcss"></div>
 </head>
 <body>
@@ -121,7 +139,11 @@
 		function pegarImg() {
 			var foto = $("#foto")[0].files[0];
 			var reader = new FileReader();
-
+			if (foto=== undefined)
+				{
+				$("#foto-perfil-preview").attr('src', '/img/semperfil-foto.png');
+				return;
+				}
 			reader.onload = function(event) {
 				var base64String = event.target.result;
 

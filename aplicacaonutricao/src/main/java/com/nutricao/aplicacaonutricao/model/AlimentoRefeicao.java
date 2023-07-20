@@ -2,6 +2,7 @@ package com.nutricao.aplicacaonutricao.model;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class AlimentoRefeicao {
 	@ManyToOne
 	private Alimento alimento;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	private Refeicao refeicao;
 	
 }

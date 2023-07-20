@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport"
@@ -8,14 +8,14 @@
 <meta name="author" content="" />
 <title>NUTRICAO</title>
 <!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+	<link rel="icon" type="image/x-icon" th:href="@{/img/favicon.png}" />
 <!-- Core theme CSS (includes Bootstrap)-->
-<link href="css/styles.css" rel="stylesheet"
-	th:href="@{/css/styles.css}" />
+<div th:insert="parts/importcss"></div>
+
 
 <style>
 
-.container-fluid{
+.fluido-centro{
 	justify-content:center !important;
 }
 </style>
@@ -32,7 +32,7 @@
 						<div th:include="parts/topnavigation"></div>
 			
 			<!-- Page content-->
-			<div class="container-fluid" >
+			<div class="container-fluid fluido-centro" >
 				<div class="esquerda-index">
 				<h1 class="mt-4">Seja Bem-Vindo</h1>
 				<p>Hoje você tem um <b id="nconsultas"></b> consulta(s) agendada(s) para hoje. Veja mais em consultas.</p>
@@ -46,21 +46,47 @@
 		</div>
 	</div>
 	<!-- Bootstrap core JS-->
+	<div class="modal" id="modalAgenda" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Alterar o status da consulta</h5>
+<!--         <button type="button"onclick="$('#modalAgenda').modal('hide')" class="close" data-dismiss="modal" aria-label="Close"> -->
+<!--           <span aria-hidden="true">&times;</span> -->
+<!--         </button> -->
+      </div>
+      <div class="modal-body">
+        <p>A consulta foi cancelada ou finalizada ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="realizada()">Consulta Finalizada</button>
+                <button type="button" class="btn btn-warning" onclick="cancelar()">Consulta Cancelada</button>
+        
+        <button type="button" class="btn btn-secondary" onclick="$('#modalAgenda').modal('hide')" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+	
 		<div th:include="parts/scripts"></div>
 
 
 <script>
-
+var consulta_para_editar=-1;
 
 $(document).ready(function(){
 	buscar();	
 })
-
+function editarConsulta(id){
+	$('#modalAgenda').modal('show');
+	consulta_para_editar=(id);
+}
 function buscar() {
 
 	var data=formatarData();
 	var dataparam = "?data=" + data;
-	$.get('/consultas/todos' + dataparam).done(function(response) {
+	$.get('/consultas/agendadas' + dataparam).done(function(response) {
 		console.log(response);
 		var lista=JSON.parse(response);
 		$("#nconsultas").html(lista.length)
@@ -68,9 +94,16 @@ function buscar() {
 		if (lista.length>0){
 			$("#mensagem").html(`<p>Os pacientes que você vai encontrar hoje são : <div id="pessoas"></div></p>`);
 			lista.forEach((e)=>{
-				$("#pessoas").append(`<a href="/pacientes/crud/${e.paciente.id}"><p>${e.paciente.nome}
-				(${e.horario.split(' ')[1]} horas) - ${e.status}</p></a>`)
-
+				var minutos=0;
+				var x=minutos_faltando(e.horario);
+				if (x>0){
+					minutos="Daqui à "+Math.floor(x) +" minutos";
+				}else{
+					minutos="Passaram "+Math.floor(-1*x)+ " minutos";
+				}
+				var botao=`<button onclick="editarConsulta(${e.id})" class="btn"><i class="bi bi-pencil-fill"></i></button>`;
+				$("#pessoas").append(`<p><span><a href="/pacientes/crud/${e.paciente.id}">${e.paciente.nome}</a></span>
+				(${e.horario.split(' ')[1]} horas - ${minutos}) - ${e.status} ${botao}</p>`)
 			})
 		}
 		
@@ -79,7 +112,35 @@ function buscar() {
 	});
 }
 
+function realizada(id){
+	alert(id);
+	buscar();
+	$.ajax({
+		  url: '/consultas/realizada/'+consulta_para_editar,
+		  type: 'PUT',
+		  success: function(result) {
+			alert(result);
+			buscar();
+		  },
+		  error: function(xhr, status, error) {
+				tratarErro(xhr);
+		  }
+		});
+}
 
+function cancelar(){
+	$.ajax({
+		  url: '/consultas/cancelada/'+consulta_para_editar,
+		  type: 'PUT',
+		  success: function(result) {
+			alert(result);
+			buscar();
+		  },
+		  error: function(xhr, status, error) {
+				tratarErro(xhr);
+		  }
+		});
+}
 </script>
 
 </body>

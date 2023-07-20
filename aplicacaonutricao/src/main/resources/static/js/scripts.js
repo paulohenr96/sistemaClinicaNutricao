@@ -209,9 +209,23 @@ function tratarErro(xhr, id) {
 	if (xhr.status === 405 || xhr.status === 403) { //quando a sessão expira
 
 		error("Problema de Autenticação, efetue o login novamente.", id)
+		window.location.href = '/login';
+
 	} else {//quando para a aplicação
-		error("Ocorreu um erro interno, entre em contato com nosso suporte. =>" + xhr.responseText, id);
+		error(xhr.responseText, id);
 	}
+
+}
+function minutos_faltando(date) {
+	var MS_MINUTES=60*1000;
+	var day = date.split("/")[0];
+	var month = date.split("/")[1];
+	var year = date.split("/")[2].split(" ")[0];
+	var time=date.split("/")[2].split(" ")[1]
+	console.log(date.split("/")[0]);
+	var horario_agendado = new Date(`${month}/${day}/${year} ${time}`).getTime();
+	var minutos_faltando=(horario_agendado-new Date().getTime())/MS_MINUTES;
+	return minutos_faltando;
 
 }
 

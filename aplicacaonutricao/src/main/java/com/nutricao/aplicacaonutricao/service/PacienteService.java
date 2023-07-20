@@ -1,7 +1,5 @@
 package com.nutricao.aplicacaonutricao.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -12,8 +10,12 @@ import org.springframework.stereotype.Service;
 import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.exception.PacienteNotFoundException;
 import com.nutricao.aplicacaonutricao.mapper.PacienteMapperImp;
-import com.nutricao.aplicacaonutricao.mapper.PacienteMapperImp;
+import com.nutricao.aplicacaonutricao.model.Consulta;
+import com.nutricao.aplicacaonutricao.model.Dieta;
 import com.nutricao.aplicacaonutricao.model.Paciente;
+import com.nutricao.aplicacaonutricao.model.Refeicao;
+import com.nutricao.aplicacaonutricao.repository.ConsultaRepository;
+import com.nutricao.aplicacaonutricao.repository.DietaRepository;
 import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,8 @@ import lombok.AllArgsConstructor;
 public class PacienteService {
 
 	private final PacienteRepository repository;
+	private final DietaRepository dietaRepository;
+	private final ConsultaRepository consultaRepository;
 
 	private final PacienteMapperImp mapper;
 
@@ -63,6 +67,20 @@ public class PacienteService {
 	public void deletePaciente(Long id) {
 
 		try {
+			Optional<Paciente> optional = repository.findById(id);
+			
+			
+			Page<Consulta> findAllConsultaByPaciente = consultaRepository.findAllConsultaByPaciente(id,PageRequest.of(0, Integer.MAX_VALUE));
+			
+			consultaRepository.deleteAll(findAllConsultaByPaciente);
+//			Dieta dieta = dietaRepository.findByPaciente(id);
+//			if (dieta!=null) {
+//				
+//				
+//				dietaRepository.deleteById(dieta.getId());
+//				
+//			}
+//			
 			repository.deleteById(id);
 
 		} catch (IllegalArgumentException e) {
