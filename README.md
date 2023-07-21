@@ -25,4 +25,7 @@ Auxiliar no gerenciamento dos pacientes de uma clinica de nutrição
 - O controller é composto por métodos simples
 que tem como objetivo chamar o serviço e retornar a resposta de acordo com a requisição do usuário.
 - O serviço comunica com os mappers e com o repositório. Os mappers convertem as entidades para DTO's e vice-versa.
-- O repositório realiza a comunicação com o banco de dados. 
+- O repositório realiza a comunicação com o banco de dados.
+  ### TESTES UNITÁRIOS
+  - Os testes unitários foram realizados utilizando mockito e junit 5
+  - Para passar pelo Spring Security foi utilizada a anotação @WithMockUser
