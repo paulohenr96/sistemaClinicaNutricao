@@ -19,3 +19,10 @@ Auxiliar no gerenciamento dos pacientes de uma clinica de nutrição
 - Gerenciar a alimentação do paciente, cadastrando as refeições do paciente se seus respectivos alimentos
 - Gerenciar as consultas (marcar consulta,cancelar consulta, visualizar todas as consultas e visualizar as consultas do dia)
 - Sistema de autenticação utilizando Spring Security (password e username).
+
+## CÓDIGO
+- O back-end é composto majoritariamente pelas camadas de controller,serviço e repositórios.
+- O controller é composto por métodos simples
+que tem como objetivo chamar o serviço e retornar a resposta de acordo com a requisição do usuário.
+- O serviço comunica com os mappers e com o repositório. Os mappers convertem as entidades para DTO's e vice-versa.
+- O repositório realiza a comunicação com o banco de dados. 
