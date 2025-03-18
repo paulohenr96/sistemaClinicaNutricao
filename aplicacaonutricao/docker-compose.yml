@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: projetonutricao
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    image: my-spring-app
+    container_name: spring_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/projetonutricao
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: senha
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
