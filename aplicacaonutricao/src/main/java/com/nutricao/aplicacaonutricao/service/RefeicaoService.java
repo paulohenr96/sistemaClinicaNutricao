@@ -1,7 +1,6 @@
 package com.nutricao.aplicacaonutricao.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ import com.nutricao.aplicacaonutricao.repository.AlimentoRepository;
 import com.nutricao.aplicacaonutricao.repository.DietaRepository;
 import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 import com.nutricao.aplicacaonutricao.repository.RefeicaoRepository;
-
-import lombok.AllArgsConstructor;
 
 @Service
 public class RefeicaoService {

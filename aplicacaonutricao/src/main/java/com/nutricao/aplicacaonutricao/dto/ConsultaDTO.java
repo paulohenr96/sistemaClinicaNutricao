@@ -1,20 +1,10 @@
 package com.nutricao.aplicacaonutricao.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nutricao.aplicacaonutricao.model.Paciente;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 public class ConsultaDTO {
 	Long id;
 	

@@ -1,8 +1,5 @@
 package com.nutricao.aplicacaonutricao.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class LoginDTO {
 
 	private String username;

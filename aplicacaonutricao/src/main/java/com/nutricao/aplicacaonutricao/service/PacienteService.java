@@ -11,14 +11,10 @@ import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.exception.PacienteNotFoundException;
 import com.nutricao.aplicacaonutricao.mapper.PacienteMapperImp;
 import com.nutricao.aplicacaonutricao.model.Consulta;
-import com.nutricao.aplicacaonutricao.model.Dieta;
 import com.nutricao.aplicacaonutricao.model.Paciente;
-import com.nutricao.aplicacaonutricao.model.Refeicao;
 import com.nutricao.aplicacaonutricao.repository.ConsultaRepository;
 import com.nutricao.aplicacaonutricao.repository.DietaRepository;
 import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
-
-import lombok.AllArgsConstructor;
 
 @Service
 public class PacienteService {

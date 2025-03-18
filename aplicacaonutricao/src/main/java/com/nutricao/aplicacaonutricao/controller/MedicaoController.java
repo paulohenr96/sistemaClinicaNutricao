@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +18,6 @@ import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.MedicaoService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @Controller
 @RequestMapping("medicoes")
 public class MedicaoController {

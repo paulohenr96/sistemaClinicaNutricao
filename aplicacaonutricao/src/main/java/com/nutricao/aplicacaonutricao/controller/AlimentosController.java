@@ -16,8 +16,6 @@ import com.nutricao.aplicacaonutricao.dto.AlimentoDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.AlimentoService;
 
-import lombok.AllArgsConstructor;
-
 @Controller
 @RequestMapping("alimentos/crud")
 public class AlimentosController {

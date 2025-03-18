@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nutricao.aplicacaonutricao.dto.LoginDTO;
 import com.nutricao.aplicacaonutricao.service.UsuarioService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
-
-import lombok.AllArgsConstructor;
 @Controller
 @RequestMapping("/login")
 public class LoginController {

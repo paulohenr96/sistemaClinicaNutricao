@@ -15,8 +15,6 @@ import com.nutricao.aplicacaonutricao.model.Consulta;
 import com.nutricao.aplicacaonutricao.model.Paciente;
 import com.nutricao.aplicacaonutricao.repository.ConsultaRepository;
 
-import lombok.AllArgsConstructor;
-
 @Service
 public class ConsultaService {
 

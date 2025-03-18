@@ -13,8 +13,6 @@ import com.nutricao.aplicacaonutricao.mapper.AlimentoMapperImp;
 import com.nutricao.aplicacaonutricao.model.Alimento;
 import com.nutricao.aplicacaonutricao.repository.AlimentoRepository;
 
-import lombok.AllArgsConstructor;
-
 @Service
 public class AlimentoService {
 

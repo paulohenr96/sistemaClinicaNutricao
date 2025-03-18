@@ -23,8 +23,6 @@ import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.ConsultaService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
-import lombok.AllArgsConstructor;
-
 @Controller
 @RequestMapping("consultas")
 public class ConsultaController {

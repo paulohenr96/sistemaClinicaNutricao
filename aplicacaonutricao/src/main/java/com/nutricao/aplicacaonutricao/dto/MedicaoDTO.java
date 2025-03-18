@@ -8,10 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nutricao.aplicacaonutricao.model.Paciente;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 
 public class MedicaoDTO {
 	Long id;

@@ -6,9 +6,6 @@ import java.util.List;
 import com.nutricao.aplicacaonutricao.model.Paciente;
 import com.nutricao.aplicacaonutricao.model.Refeicao;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class DietaDTO {
 
 	private Long id;

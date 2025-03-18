@@ -2,10 +2,6 @@ package com.nutricao.aplicacaonutricao.dto;
 
 import java.math.BigDecimal;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class AlimentoDTO {
 
 	private Long id;

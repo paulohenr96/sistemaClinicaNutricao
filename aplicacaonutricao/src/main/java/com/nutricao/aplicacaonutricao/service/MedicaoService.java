@@ -15,8 +15,6 @@ import com.nutricao.aplicacaonutricao.model.Paciente;
 import com.nutricao.aplicacaonutricao.repository.MedicaoRepository;
 import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 
-import lombok.AllArgsConstructor;
-
 @Service
 public class MedicaoService {
 

@@ -2,7 +2,6 @@ package com.nutricao.aplicacaonutricao.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,8 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.nutricao.aplicacaonutricao.repository.UsuarioRepository;
 import com.nutricao.aplicacaonutricao.service.UserServiceImplementation;
-
-import lombok.AllArgsConstructor;
 
 @Configuration
 @EnableWebSecurity

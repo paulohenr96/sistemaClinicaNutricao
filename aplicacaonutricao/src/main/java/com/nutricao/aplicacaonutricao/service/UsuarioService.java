@@ -15,8 +15,6 @@ import com.nutricao.aplicacaonutricao.mapper.UsuarioMapperImp;
 import com.nutricao.aplicacaonutricao.model.Usuario;
 import com.nutricao.aplicacaonutricao.repository.UsuarioRepository;
 
-import lombok.AllArgsConstructor;
-
 @Service
 public class UsuarioService {
 
