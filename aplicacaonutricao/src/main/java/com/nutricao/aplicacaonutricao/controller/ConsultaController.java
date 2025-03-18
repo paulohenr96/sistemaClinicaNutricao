@@ -25,7 +25,6 @@ import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Controller
 @RequestMapping("consultas")
 public class ConsultaController {
@@ -33,6 +32,11 @@ public class ConsultaController {
 	private final ConsultaService service;
 	
 	
+	public ConsultaController(ConsultaService service) {
+		super();
+		this.service = service;
+	}
+
 	@GetMapping
 	public String findAllPacientes(Model model) {
 		return PAGINAS.PAGINA_CONSULTAS;

@@ -26,6 +26,11 @@ public class RefeicaoController {
 
 	private final RefeicaoService service;
 
+	public RefeicaoController(RefeicaoService service2) {
+		// TODO Auto-generated constructor stub
+		this.service=service2;
+	}
+
 	@PostMapping("{refeicao}")
 	public ResponseEntity<Object> adicionarAlimentoRefeicao(@PathVariable Long refeicao, Model model,
 			@RequestBody AlimentoRefeicaoDTO a) {

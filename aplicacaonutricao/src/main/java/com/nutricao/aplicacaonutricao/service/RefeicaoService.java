@@ -24,7 +24,6 @@ import com.nutricao.aplicacaonutricao.repository.RefeicaoRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class RefeicaoService {
 
 	private final RefeicaoRepository repository;
@@ -34,6 +33,18 @@ public class RefeicaoService {
 	private final PacienteRepository pacienteRepository;
 
 	private final RefeicaoMapperImp mapper;
+
+	public RefeicaoService(RefeicaoRepository repository, DietaRepository dietaRepository,
+			AlimentoRefeicaoRepository alimentoRefeicaoRepository, AlimentoRepository alimentoRepository,
+			PacienteRepository pacienteRepository, RefeicaoMapperImp mapper) {
+		super();
+		this.repository = repository;
+		this.dietaRepository = dietaRepository;
+		this.alimentoRefeicaoRepository = alimentoRefeicaoRepository;
+		this.alimentoRepository = alimentoRepository;
+		this.pacienteRepository = pacienteRepository;
+		this.mapper = mapper;
+	}
 
 	public void salvar(Long paciente, RefeicaoDTO dto) {
 		Refeicao refeicao = mapper.toEntity(dto);

@@ -14,9 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class AlimentoRefeicao {
 
 	@Id
@@ -33,5 +30,51 @@ public class AlimentoRefeicao {
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	private Refeicao refeicao;
+
+	public AlimentoRefeicao(Long id, BigDecimal quantidade, Alimento alimento, Refeicao refeicao) {
+		super();
+		this.id = id;
+		this.quantidade = quantidade;
+		this.alimento = alimento;
+		this.refeicao = refeicao;
+	}
+
+	public AlimentoRefeicao() {
+		super();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public BigDecimal getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public Alimento getAlimento() {
+		return alimento;
+	}
+
+	public void setAlimento(Alimento alimento) {
+		this.alimento = alimento;
+	}
+
+	public Refeicao getRefeicao() {
+		return refeicao;
+	}
+
+	public void setRefeicao(Refeicao refeicao) {
+		this.refeicao = refeicao;
+	}
+	
+	
 	
 }

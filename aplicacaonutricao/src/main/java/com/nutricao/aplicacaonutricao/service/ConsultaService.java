@@ -18,12 +18,17 @@ import com.nutricao.aplicacaonutricao.repository.ConsultaRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class ConsultaService {
 
 	private final ConsultaRepository repository;
 
 	private final ConsultaMapperImp mapper;
+
+	public ConsultaService(ConsultaRepository repository, ConsultaMapperImp mapper) {
+		super();
+		this.repository = repository;
+		this.mapper = mapper;
+	}
 
 	public void salvar(ConsultaDTO dto, Long paciente) {
 

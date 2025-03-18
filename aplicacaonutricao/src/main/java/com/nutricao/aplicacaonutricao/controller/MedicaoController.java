@@ -27,7 +27,12 @@ import lombok.AllArgsConstructor;
 public class MedicaoController {
 
 	private final MedicaoService service;
-
+	
+	public MedicaoController (MedicaoService service) {
+		this.service=service;
+	}
+	
+	
 	@GetMapping("{paciente}")
 	public String paginaMedicao(@PathVariable Long paciente, Model model) {
 

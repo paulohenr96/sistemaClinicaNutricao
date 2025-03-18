@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@AllArgsConstructor
 public class WebSecurityConfig {
 	private final UsuarioRepository repo;
 //		@Bean
@@ -32,6 +31,11 @@ public class WebSecurityConfig {
 	@Bean
 	UserServiceImplementation customUserDetailsService() {
 		return new UserServiceImplementation(repo);
+	}
+
+	public WebSecurityConfig(UsuarioRepository repo) {
+		super();
+		this.repo = repo;
 	}
 
 	@Bean

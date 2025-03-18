@@ -19,7 +19,6 @@ import com.nutricao.aplicacaonutricao.service.AlimentoService;
 import lombok.AllArgsConstructor;
 
 @Controller
-@AllArgsConstructor
 @RequestMapping("alimentos/crud")
 public class AlimentosController {
 
@@ -29,6 +28,11 @@ public class AlimentosController {
 	
 
 	
+	public AlimentosController(AlimentoService service) {
+		super();
+		this.service = service;
+	}
+
 	@PostMapping
 	public ResponseEntity<String> salvar(Model model,@ModelAttribute(name = "alimento") AlimentoDTO ali) {
 		service.salvar(ali);

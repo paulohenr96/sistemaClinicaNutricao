@@ -17,7 +17,6 @@ import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Controller
 @RequestMapping("dietas")
 public class DietaController {
@@ -26,6 +25,11 @@ public class DietaController {
 	
 	
 	
+
+	public DietaController(DietaService service) {
+		super();
+		this.service = service;
+	}
 
 	@GetMapping("{paciente}")
 	public String verDieta(@PathVariable Long paciente,Model model) {

@@ -13,13 +13,17 @@ import com.nutricao.aplicacaonutricao.service.UsuarioService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 import lombok.AllArgsConstructor;
-@AllArgsConstructor
 @Controller
 @RequestMapping("/login")
 public class LoginController {
 
 	
 	private final UsuarioService service;
+	
+	
+	public LoginController (UsuarioService service) {
+		this.service=service;
+	}
 	
 	@GetMapping
 	public String redirecionarLogin(Model model) {

@@ -18,13 +18,21 @@ import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class MedicaoService {
 
 	private final MedicaoRepository repository;
 	private final PacienteRepository pacienteRepository;
 
 	private final MedicaoMapperImp mapper;
+
+	public MedicaoService(MedicaoRepository repository, PacienteRepository pacienteRepository,
+			MedicaoMapperImp mapper) {
+		super();
+		this.repository = repository;
+		this.pacienteRepository = pacienteRepository;
+		this.mapper = mapper;
+	}
+
 
 	public void salvar(MedicaoDTO dto,Long paciente) {
 

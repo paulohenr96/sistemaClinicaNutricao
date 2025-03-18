@@ -21,7 +21,6 @@ import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class PacienteService {
 
 	private final PacienteRepository repository;
@@ -29,6 +28,15 @@ public class PacienteService {
 	private final ConsultaRepository consultaRepository;
 
 	private final PacienteMapperImp mapper;
+
+	public PacienteService(PacienteRepository repository, DietaRepository dietaRepository,
+			ConsultaRepository consultaRepository, PacienteMapperImp mapper) {
+		super();
+		this.repository = repository;
+		this.dietaRepository = dietaRepository;
+		this.consultaRepository = consultaRepository;
+		this.mapper = mapper;
+	}
 
 	public void salvar(PacienteDTO dto) {
 

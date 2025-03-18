@@ -17,10 +17,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Dieta {
 
 	@Id
@@ -48,6 +44,41 @@ public class Dieta {
 			return false;
 		Dieta other = (Dieta) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+
+	public List<Refeicao> getRefeicoes() {
+		return refeicoes;
+	}
+
+	public void setRefeicoes(List<Refeicao> refeicoes) {
+		this.refeicoes = refeicoes;
+	}
+
+	public Dieta(Long id, Paciente paciente, List<Refeicao> refeicoes) {
+		super();
+		this.id = id;
+		this.paciente = paciente;
+		this.refeicoes = refeicoes;
+	}
+
+	public Dieta() {
+		super();
 	}
 	
 	

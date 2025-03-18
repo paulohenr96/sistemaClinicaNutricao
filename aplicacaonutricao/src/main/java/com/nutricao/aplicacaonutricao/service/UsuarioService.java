@@ -18,11 +18,21 @@ import com.nutricao.aplicacaonutricao.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class UsuarioService {
 
 	private final UsuarioRepository repository;
 	private final UsuarioMapperImp mapper;
+	
+	
+	
+	
+	
+	public UsuarioService(UsuarioRepository repository, UsuarioMapperImp mapper) {
+		super();
+		this.repository = repository;
+		this.mapper = mapper;
+	}
+
 	public UsuarioDTO findUsuario() {
 
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();

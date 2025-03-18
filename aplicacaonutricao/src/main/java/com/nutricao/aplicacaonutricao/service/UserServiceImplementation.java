@@ -18,7 +18,6 @@ import com.nutricao.aplicacaonutricao.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 public class UserServiceImplementation implements UserDetailsService{
 
 	private final UsuarioRepository repository;
@@ -36,6 +35,11 @@ public class UserServiceImplementation implements UserDetailsService{
 		UserDetails user=new User(usuario.getUsername(),usuario.getPassword(),List.of(new SimpleGrantedAuthority("USER")));
 		
 		return user;
+	}
+
+	public UserServiceImplementation(UsuarioRepository repository) {
+		super();
+		this.repository = repository;
 	}
 
 }

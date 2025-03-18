@@ -16,12 +16,17 @@ import com.nutricao.aplicacaonutricao.repository.AlimentoRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class AlimentoService {
 
 	private final AlimentoRepository repository;
 
 	private final AlimentoMapperImp mapper;
+
+	public AlimentoService(AlimentoRepository repository, AlimentoMapperImp mapper) {
+		super();
+		this.repository = repository;
+		this.mapper = mapper;
+	}
 
 	public void salvar(AlimentoDTO dto) {
 
