@@ -2,39 +2,31 @@ package com.nutricao.aplicacaonutricao.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 
 import com.nutricao.aplicacaonutricao.dto.AlimentoRefeicaoDTO;
-import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.RefeicaoService;
-import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 //@ContextConfiguration(classes = SecurityConfig.class)
 @WebMvcTest(controllers = RefeicaoController.class)
@@ -43,6 +35,7 @@ import com.nutricao.aplicacaonutricao.util.PAGINAS;
 public class RefeicaoControllerTest {
 
 
+	@Autowired
 	MockMvc mockMvc;
 	@MockBean
 	RefeicaoService service;
@@ -130,7 +123,9 @@ public class RefeicaoControllerTest {
 		
 		AlimentoRefeicaoDTO a=new AlimentoRefeicaoDTO();
 		a.setId(3L);
-		 MvcResult result = mockMvc.perform(delete("/refeicao/alimento/" + 3L)).andReturn();
+		 MvcResult result = mockMvc.perform(delete("/refeicao/alimento/" + 3L)
+				 .with(SecurityMockMvcRequestPostProcessors.csrf()))
+				 .andReturn();
 		 
 		 
 		 
@@ -144,7 +139,11 @@ public class RefeicaoControllerTest {
 	
 		RefeicaoDTO r=new RefeicaoDTO();
 		r.setId(3L);
-		 MvcResult result = mockMvc.perform(delete("/refeicao/" + 3L)).andReturn();
+		 MvcResult result = mockMvc.perform(delete("/refeicao/" + 3L)
+				 
+				 .with(SecurityMockMvcRequestPostProcessors.csrf()))
+				 
+				 .andReturn();
 		 		
 		 
 		 assertEquals("ok",result.getResponse().getContentAsString());

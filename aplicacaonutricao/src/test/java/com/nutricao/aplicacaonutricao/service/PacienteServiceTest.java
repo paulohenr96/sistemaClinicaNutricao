@@ -30,6 +30,7 @@ import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.exception.PacienteNotFoundException;
 import com.nutricao.aplicacaonutricao.mapper.PacienteMapperImp;
 import com.nutricao.aplicacaonutricao.model.Paciente;
+import com.nutricao.aplicacaonutricao.repository.ConsultaRepository;
 import com.nutricao.aplicacaonutricao.repository.PacienteRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -40,6 +41,9 @@ public class PacienteServiceTest {
 	@Mock
 	PacienteRepository repo;
 
+	@Mock
+	ConsultaRepository consultaRepository;
+	
 	@Mock
 	PacienteMapperImp mapper;
 

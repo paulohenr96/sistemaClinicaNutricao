@@ -88,7 +88,7 @@ public class PacientesControllerTest {
 
 		
 		assertEquals("salvo",result.getResponse().getContentAsString());
-		assertEquals(200,result.getResponse().getStatus());
+		assertEquals(201,result.getResponse().getStatus());
 
 	}
 //
