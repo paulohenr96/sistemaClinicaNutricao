@@ -1,6 +1,7 @@
 package com.nutricao.aplicacaonutricao.dto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -71,6 +72,21 @@ public class AlimentoRefeicaoDTO {
 	}
 	public void setGordura(BigDecimal gordura) {
 		this.gordura = gordura;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AlimentoRefeicaoDTO other = (AlimentoRefeicaoDTO) obj;
+		return Objects.equals(id, other.id);
 	}
 
 	
