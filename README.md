@@ -1,9 +1,9 @@
 # sistemaClinicaNutricao
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 ## Rodando o Projeto
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 - Instale o [Docker](https://www.docker.com/products/docker-desktop/)
 - Entre na pasta "aplicacaonutricao"
 - Execute o comando 
