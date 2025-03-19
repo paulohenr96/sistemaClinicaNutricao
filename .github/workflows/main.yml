@@ -25,8 +25,12 @@ jobs:
 
       - name: Instalar dependências
         run: mvn clean install -DskipTests
+        working-directory: aplicacaonutricao
 
       - name: Executar testes unitários
         run: mvn test
+        working-directory: aplicacaonutricao
 
-      
+      - name: Relatar cobertura de testes (Opcional)
+        run: mvn jacoco:report
+        working-directory: aplicacaonutricao
