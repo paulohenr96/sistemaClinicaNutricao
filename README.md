@@ -1,12 +1,33 @@
 # sistemaClinicaNutricao
-SPRING MVC - JQUERY
+![alt text](image-2.png)
+
+## Rodando o Projeto
+
+![alt text](image-1.png)
+- Instale o [Docker](https://www.docker.com/products/docker-desktop/)
+- Entre na pasta "aplicacaonutricao"
+- Execute o comando 
+```
+docker-compose up
+
+```
+## Testes Unitários
+- Tenha o [Maven](https://maven.apache.org/download.cgi) instalado na sua máquina
+- Abra o terminal na pasta "aplicacaonutricao"
+- Instale as dependências
+```
+mvn clean install -DskipTests
+```
+- Execute os testes
+```
+mvn test
+```
 
 ## TECNOLOGIAS UTILIZADAS
-- SPRING FRAMEWORK
-- JAVA 17
-- LOMBOK
-- BOOTSTRAP
-- THYMELEAF
+- [SPRING FRAMEWORK](https://spring.io/projects/spring-framework)
+- [JAVA 17](https://www.oracle.com/java/technologies/downloads/)
+- [BOOTSTRAP](https://getbootstrap.com/)
+- [THYMELEAF](https://www.thymeleaf.org/)
 - JAVASCRIPT
 - CSS
 
