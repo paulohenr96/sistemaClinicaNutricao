@@ -8,7 +8,7 @@
 - Entre na pasta "aplicacaonutricao"
 - Execute o comando 
 ```
-docker-compose up
+docker-compose up --build
 
 ```
 ## Testes Unitários
