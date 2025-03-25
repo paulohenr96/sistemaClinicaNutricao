@@ -216,13 +216,14 @@
 			var paciente = {
 				nome : $("#nome").val(),
 				foto : $("#foto-perfil-preview").attr('src'),
-
+				descricao:$("#descricao").val(),
 				telefone : $("#telefone").val(),
 				cpf : $("#cpf").val(),
 				endereco : $("#endereco").val(),
 				dataDeNascimento : $("#dataDeNascimento").val(),
 			};
 			if (paciente.nome.trim()!='' 
+					&& paciente.descricao.trim()!=''
 					&& paciente.telefone.trim()!='' 
 					&& paciente.cpf.trim()!='' 
 					&& paciente.dataDeNascimento.trim()!=''
