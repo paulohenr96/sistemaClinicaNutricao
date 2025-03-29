@@ -11483,3 +11483,20 @@ body{
 	padding-bottom:2em;
 	opacity: 0.95;
 }
+
+.modal-refeicao-custom {
+    max-width: 95% !important;  
+    height: 90vh;               
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-refeicao-custom .modal-content {
+    height: 100%;              
+}
+
+#modalRefeicao .modal-body {
+    flex: 1 1 auto;              
+    overflow-y: auto;
+}
