@@ -450,7 +450,7 @@
 				$("#refeicaoselecionadaid").val(refeicao);
 
 			}
-			
+			$("#nomepesquisa").val('');
 			$.get('/refeicao/'+refeicao).done(function(response) {
 				var refeicao=JSON.parse(response);
 

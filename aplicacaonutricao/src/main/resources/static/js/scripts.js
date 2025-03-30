@@ -57,10 +57,11 @@ function formatarData(data) {
 // PAGINAÇÂO ///
 
 function paginacao(divpaginacao, dadospagina, func) {
-	if (dadospagina.numberOfElements == 0) {
+	$("#" + divpaginacao).html('');
+
+	if (dadospagina.numberOfElements == 0 || dadospagina.totalPages==1) {
 		return;
 	}
-	$("#" + divpaginacao).html('');
 
 
 	var paginas = '';
@@ -81,10 +82,17 @@ function paginacao(divpaginacao, dadospagina, func) {
 
 	var nprimeira = 0;
 	if (dadospagina.number % 3 == 0) {
+		if (dadospagina.number==0){
+			
 		nprimeira = dadospagina.number;
+		}else{
+			nprimeira = dadospagina.number-2;
+
+		}
 	}
 	else {
 		nprimeira = Math.floor(dadospagina.number / 3) * 3;
+		
 	}
 
 
@@ -92,7 +100,9 @@ function paginacao(divpaginacao, dadospagina, func) {
 	if (dadospagina.totalPages < 3) {
 		nultima = dadospagina.totalPages - 1;
 	}
+	console.log(dadospagina.number+"==== number")
 
+	console.log(dadospagina.totalPages+"==== totalpages")
 	for (var i = nprimeira; i <= nultima; i++) {
 		if (i == dadospagina.number) {
 			paginas += `<li class="page-item active" onclick="${func}(${i})"><a class="page-link" >${i + 1}</a></li>`;
