@@ -11500,3 +11500,8 @@ body{
     flex: 1 1 auto;              
     overflow-y: auto;
 }
+
+#textonutricao{
+	text-decoration: none;
+		color: inherit;
+}
