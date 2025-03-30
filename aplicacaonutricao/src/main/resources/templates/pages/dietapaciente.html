@@ -32,11 +32,10 @@
 		<div id="page-content-wrapper">
 			<!-- Top navigation-->
 			<div th:insert="parts/topnavigation"></div>
-
 			<!-- Page content-->
 			<div class="container-fluid">
 				<div class="titulo">
-					<a th:href="@{/pacientes/crud/{id}(id=${paciente})}"><button
+					<a th:href="@{/pacientes/crud/{id}(id=${paciente.id})}"><button
 							class="btn btn-primary mt-3">
 							<i class="bi bi-arrow-left-square"></i>
 							
@@ -45,11 +44,11 @@
 							</button></a>
 
 					<h1>
-						DIETA <span th:text="${paciente}" id="paciente" />
+						Dieta de <span th:text="${paciente.nome}"  /><span style="display:none" th:text="${paciente.id}" id="paciente"/>
 					</h1>
 				</div>
 				<form id="formulario_refeicao"
-					th:action="@{/dietas/{id}(id=${paciente})}" method="post"
+					th:action="@{/dietas/{id}(id=${paciente.id})}" method="post"
 					th:object="${refeicao}">
 					<div class="refeicoes mt-3">
 						<div class="form-row">
@@ -375,6 +374,27 @@
 				tratarErro(xhr);
 			});
 		}
+		function findNomePaciente(){
+					var param='';
+					if (pagina!==undefined){
+						param='?page='+pagina;
+					}
+					
+					
+					$.get('/alimentos/crud'+param).done(function(response) {
+						var page=JSON.parse(response);
+						
+						console.log(page);
+						incrementarTabelaAlimentos(page.content);
+						paginacao("paginacao_alimentos",page,"findAllAlimentos");
+						
+					}).fail(function(xhr) {
+						tratarErro(xhr);
+					});
+					
+				}
+		
+		
 		function findAllAlimentos(pagina){
 			var param='';
 			if (pagina!==undefined){

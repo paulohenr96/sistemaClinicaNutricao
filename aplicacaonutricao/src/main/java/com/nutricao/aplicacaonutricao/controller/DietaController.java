@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
 import com.nutricao.aplicacaonutricao.service.DietaService;
+import com.nutricao.aplicacaonutricao.service.PacienteService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 @Controller
@@ -19,20 +21,27 @@ public class DietaController {
 
 	private final DietaService service;
 	
+	private final PacienteService pacienteService;
 	
 	
 
-	public DietaController(DietaService service) {
+	public DietaController(DietaService service,PacienteService pacienteService) {
 		super();
 		this.service = service;
+		this.pacienteService = pacienteService;
+
 	}
 
 	@GetMapping("{paciente}")
 	public String verDieta(@PathVariable Long paciente,Model model) {
 		
 		model.addAttribute("paciente",paciente);
-
 		System.out.println(paciente);
+		
+		PacienteDTO pacienteDTO = pacienteService.findPacienteById(paciente);
+		model.addAttribute("paciente", pacienteDTO);
+		
+		
 		return PAGINAS.PAGINA_DIETA_PACIENTE;
 	}
 	
