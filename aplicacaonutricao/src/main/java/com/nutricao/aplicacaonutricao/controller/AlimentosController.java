@@ -55,7 +55,6 @@ public class AlimentosController {
 			@RequestParam(name="size",defaultValue="3") Integer size,
 			Model model) {
 		Page<AlimentoDTO> saida = service.findAllByNome(nome,PageRequest.of(page, size));
-		System.out.println(saida.getTotalPages());
 		return ResponseEntity.ok(JsonMapper.mapearJson(saida));
 	}
 	@GetMapping("id/{id}")
