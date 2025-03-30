@@ -35,8 +35,8 @@ public class DietaController {
 	@GetMapping("{paciente}")
 	public String verDieta(@PathVariable Long paciente,Model model) {
 		
-		model.addAttribute("paciente",paciente);
-		System.out.println(paciente);
+//		model.addAttribute("paciente",paciente);
+//		System.out.println(paciente);
 		
 		PacienteDTO pacienteDTO = pacienteService.findPacienteById(paciente);
 		model.addAttribute("paciente", pacienteDTO);

@@ -33,8 +33,10 @@ import org.springframework.ui.Model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nutricao.aplicacaonutricao.dto.ConsultaDTO;
+import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.ConsultaService;
+import com.nutricao.aplicacaonutricao.service.PacienteService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 //@ContextConfiguration(classes = SecurityConfig.class)
@@ -48,7 +50,18 @@ public class ConsultaControllerTest {
 	MockMvc mvc;
 	@MockBean
 	ConsultaService service;
-
+	@MockBean
+	PacienteService pacienteService;
+	
+	@BeforeEach
+	void setup() {
+		Long idPaciente=1L;
+		
+		PacienteDTO dto = new PacienteDTO();
+		dto.setId(idPaciente);
+		dto.setNome("João da Silva");
+		when(pacienteService.findPacienteById(idPaciente)).thenReturn(dto);
+	}
 
 	@Test
 	@WithMockUser

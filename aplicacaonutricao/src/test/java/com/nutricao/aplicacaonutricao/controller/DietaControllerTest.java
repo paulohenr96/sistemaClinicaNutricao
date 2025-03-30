@@ -19,9 +19,11 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
+import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.dto.RefeicaoDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.DietaService;
+import com.nutricao.aplicacaonutricao.service.PacienteService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 //@ContextConfiguration(classes = SecurityConfig.class)
@@ -33,13 +35,22 @@ public class DietaControllerTest {
 
 	@Autowired
 	MockMvc mvc;
+	
 	@MockBean
 	DietaService service;
+	@MockBean
+	PacienteService pacienteService;
 	
 	Long idpaciente;
 	@BeforeEach
 	void setup() {
 		idpaciente=1L;
+		
+		
+		PacienteDTO dto = new PacienteDTO();
+		dto.setId(idpaciente);
+		dto.setNome("João da Silva");
+		when(pacienteService.findPacienteById(idpaciente)).thenReturn(dto);
 	}
 
 	@Test

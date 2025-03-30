@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nutricao.aplicacaonutricao.dto.ConsultaDTO;
+import com.nutricao.aplicacaonutricao.dto.PacienteDTO;
 import com.nutricao.aplicacaonutricao.mapper.JsonMapper;
 import com.nutricao.aplicacaonutricao.service.ConsultaService;
+import com.nutricao.aplicacaonutricao.service.PacienteService;
 import com.nutricao.aplicacaonutricao.util.PAGINAS;
 
 @Controller
@@ -29,10 +31,13 @@ public class ConsultaController {
 
 	private final ConsultaService service;
 	
-	
-	public ConsultaController(ConsultaService service) {
+	private final PacienteService pacienteService;
+
+	public ConsultaController(ConsultaService service,PacienteService pacienteService) {
 		super();
 		this.service = service;
+		this.pacienteService = pacienteService;
+
 	}
 
 	@GetMapping
@@ -43,7 +48,8 @@ public class ConsultaController {
 	@GetMapping("{paciente}")
 	public String verConsulta(@PathVariable Long paciente,Model model) {
 		
-		model.addAttribute("paciente",paciente);
+		PacienteDTO dto = pacienteService.findPacienteById(paciente);
+		model.addAttribute("paciente",dto);
 
 		return PAGINAS.PAGINA_DIETA_PACIENTE;
 	}
