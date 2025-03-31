@@ -1,6 +1,10 @@
 # sistemaClinicaNutricao
 ![alt text](images/image-2.png)
 
+## 🎥 Demonstração do Projeto
+
+[![Veja o projeto em execução](https://img.youtube.com/vi/hCzEURZyjM4/0.jpg)](https://youtu.be/hCzEURZyjM4)
+
 ## Rodando o Projeto
 
 ![alt text](images/image-1.png)
