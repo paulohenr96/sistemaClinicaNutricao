@@ -340,20 +340,21 @@
 		
 		function deletar_paciente(paciente){
 			
-			alert(paciente+" = > ");
-			$.ajax({
-				  url: '/pacientes/crud/'+paciente,
-				  type: 'DELETE',
-				  success: function(result) {
-					alert("Paciente Removido")
-					listarPacientes();
-				  },
-				  error: function(xhr, status, error) {
-					  console.log(xhr);
-					  alert(xhr.responseText)
-						tratarErro(xhr);
-				  }
-				});
+			if (confirm("Tem certeza que deseja remover o paciente?")) {
+					$.ajax({
+						  url: '/pacientes/crud/'+paciente,
+						  type: 'DELETE',
+						  success: function(result) {
+							alert("Paciente Removido")
+							listarPacientes();
+						  },
+						  error: function(xhr, status, error) {
+							  console.log(xhr);
+							  alert(xhr.responseText)
+								tratarErro(xhr);
+						  }
+						});
+				}
 		}
 			
 	</script>
