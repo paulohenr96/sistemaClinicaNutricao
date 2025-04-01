@@ -1,14 +1,17 @@
 # Sistema de Gerenciamento para Clínica de Nutrição
 
-![sistemaClinicaNutricao](images/image-2.png)
+
+
+## 📌 Sobre o Projeto
+
+Este projeto consiste em um **sistema web para gerenciamento de clínicas de nutrição**. Ele permite que profissionais da área registrem pacientes, agendem consultas, gerenciem históricos de medidas e cadastrem dietas personalizadas.
+
 
 ## 🎥 Demonstração do Projeto
 
 [![Veja o projeto em execução](https://img.youtube.com/vi/hCzEURZyjM4/0.jpg)](https://youtu.be/hCzEURZyjM4)
 
-## 📌 Sobre o Projeto
 
-Este projeto consiste em um **sistema web para gerenciamento de clínicas de nutrição**. Ele permite que profissionais da área registrem pacientes, agendem consultas, gerenciem históricos de medidas e cadastrem dietas personalizadas.
 
 ## 🚀 Tecnologias Utilizadas
 
