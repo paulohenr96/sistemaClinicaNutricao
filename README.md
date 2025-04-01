@@ -1,56 +1,98 @@
-# sistemaClinicaNutricao
-![alt text](images/image-2.png)
+# Sistema de Gerenciamento para Clínica de Nutrição
+
+![sistemaClinicaNutricao](images/image-2.png)
 
 ## 🎥 Demonstração do Projeto
 
 [![Veja o projeto em execução](https://img.youtube.com/vi/hCzEURZyjM4/0.jpg)](https://youtu.be/hCzEURZyjM4)
 
-## Rodando o Projeto
+## 📌 Sobre o Projeto
 
-![alt text](images/image-1.png)
-- Instale o [Docker](https://www.docker.com/products/docker-desktop/)
-- Entre na pasta "aplicacaonutricao"
-- Execute o comando 
-```
-docker-compose up --build
+Este projeto consiste em um **sistema web para gerenciamento de clínicas de nutrição**. Ele permite que profissionais da área registrem pacientes, agendem consultas, gerenciem históricos de medidas e cadastrem dietas personalizadas.
 
-```
-## Testes Unitários
-- Tenha o [Maven](https://maven.apache.org/download.cgi) instalado na sua máquina
-- Abra o terminal na pasta "aplicacaonutricao"
-- Instale as dependências
-```
-mvn clean install -DskipTests
-```
-- Execute os testes
-```
-mvn test
-```
+## 🚀 Tecnologias Utilizadas
 
-## TECNOLOGIAS UTILIZADAS
-- [SPRING FRAMEWORK](https://spring.io/projects/spring-framework)
-- [JAVA 17](https://www.oracle.com/java/technologies/downloads/)
-- [BOOTSTRAP](https://getbootstrap.com/)
-- [THYMELEAF](https://www.thymeleaf.org/)
-- JAVASCRIPT
-- CSS
+- [Java 17](https://www.oracle.com/java/technologies/downloads/)
+- [Spring Framework](https://spring.io/projects/spring-framework)
+- [Spring Security](https://spring.io/projects/spring-security)
+- [Thymeleaf](https://www.thymeleaf.org/)
+- [Bootstrap](https://getbootstrap.com/)
+- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Docker](https://www.docker.com/)
+- [JUnit 5](https://junit.org/junit5/)
+- [Mockito](https://site.mockito.org/)
 
-## OBJETIVO
-Auxiliar no gerenciamento dos pacientes de uma clinica de nutrição
+## 🎯 Funcionalidades
 
-## FUNCIONALIDADES
-- Cadastrar pacientes
-- Medidas físicas do paciente (peso,percentual de gordura,imc,altura) com gráfico em javascript
-- Gerenciar a alimentação do paciente, cadastrando as refeições do paciente se seus respectivos alimentos
-- Gerenciar as consultas (marcar consulta,cancelar consulta, visualizar todas as consultas e visualizar as consultas do dia)
-- Sistema de autenticação utilizando Spring Security (password e username).
+✅ Cadastro de pacientes com informações detalhadas  
+✅ Registro de medidas físicas (peso, IMC, percentual de gordura) com gráficos dinâmicos  
+✅ Cadastro de dietas e planejamento alimentar dos pacientes  
+✅ Controle de consultas: agendamento, cancelamento e visualização das consultas  
+✅ Sistema de autenticação com Spring Security  
+✅ Interface responsiva utilizando Bootstrap e Thymeleaf  
 
-## CÓDIGO
-- O back-end é composto majoritariamente pelas camadas de controller,serviço e repositórios.
-- O controller é composto por métodos simples
-que tem como objetivo chamar o serviço e retornar a resposta de acordo com a requisição do usuário.
-- O serviço comunica com os mappers e com o repositório. Os mappers convertem as entidades para DTO's e vice-versa.
-- O repositório realiza a comunicação com o banco de dados.
-  ### TESTES UNITÁRIOS
-  - Os testes unitários foram realizados utilizando mockito e junit 5
-  - Para passar pelo Spring Security foi utilizada a anotação @WithMockUser
+## 🛠 Como Rodar o Projeto
+
+### 🔹 1. Rodando com Docker
+
+**Requisitos:**
+- [Docker instalado](https://www.docker.com/products/docker-desktop)
+
+**Passos:**
+1. Clone o repositório e entre na pasta `aplicacaonutricao`
+2. Execute o comando:
+   ```bash
+   docker-compose up --build
+   ```
+3. O sistema estará acessível em: [http://localhost:8080](http://localhost:8080)
+
+### 📌2. Usuário de Teste
+Caso seja necessário testar a aplicação com login:
+
+- **Usuário:** admin  
+- **Senha:** admin  
+
+
+### 🔹 3. Executando os Testes Unitários
+
+**Requisitos:**
+- [Maven instalado](https://maven.apache.org/download.cgi)
+
+**Passos:**
+1. Abra o terminal na pasta `aplicacaonutricao`
+2. Instale as dependências:
+   ```bash
+   mvn clean install -DskipTests
+   ```
+3. Execute os testes:
+   ```bash
+   mvn test
+   ```
+
+## 🧪 Testes Unitários
+
+Este projeto conta com **88 testes unitários** desenvolvidos com JUnit 5 e Mockito.
+Os testes validam a lógica de negócio e interações entre as camadas da aplicação.  
+
+- Para passar pela autenticação do Spring Security, foi utilizada a anotação `@WithMockUser`.
+
+## 📂 Estrutura do Código
+
+A aplicação segue uma estrutura baseada em **camadas MVC**:
+
+📂 `controller/` → Controladores que recebem requisições e chamam os serviços  
+📂 `service/` → Camada de negócio e processamento dos dados  
+📂 `repository/` → Interface que gerencia as interações com o banco de dados  
+📂 `mapper/` → Conversão entre entidades e DTOs  
+
+
+## 📜 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+---
+
+Gostou do projeto? ⭐ Dê um star no repositório! 😊
+
